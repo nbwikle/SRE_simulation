@@ -4,7 +4,6 @@
 #state connection. State_vec is the initial vector of infected states. This vector represents
 #infection in states only as a binary variable: 1 is infected and 0 is not. Alpha is the
 #establishment rate. The matrix is set up such that connections run from j to i.
-output <- data.frame(state = 0, infection_status = 0, time_infected = 0, origin = 0)
 weight_data <- c(p1, p2, p3, p4)
 
 #Have to edit this based on which locations you're using.
@@ -35,16 +34,6 @@ stepOnce <- function(state_vec, transition_mat, alpha) {
         return(sanitize(new_vec))
 }
 
-#Give it a state_vec with any number of infected states. Splits it and runs 
-splitVec <- function(state_vec) {
-    for(i in 1:length(state_vec) {
-        if(state_vec[i] == 1) {
-            new_vec <- matrix(data = 0, ncol = ncol(state_vec), nrow = nrow(state_vec))
-            new_vec[i] = 1
-        }
-    }
-}
-
 #Sanitize binary vector, sets all elements > 1 to 1.
 sanitize <- function(vector) {
     for(i in 1:length(vector)) {            #Keeps the elements from being > 1
@@ -56,18 +45,20 @@ sanitize <- function(vector) {
 }
 
 
-recordInfo <- function(state_vec, orig_vec, singular_vec, time_step, data) {
-    data$state <- states
+recordInfo <- function(state_vec, orig_vec, singular_vec, time_step, names, data) {
+    data$state <- eval(names)
     data$infection_status <- state_vec
     data$time_infected[which(state_vec != orig_vec)] <- time_step
-    data$origin[which(state_vec != orig_vec)] <- states[which(singular_vec == 1)]
+    data$origin[which(state_vec != orig_vec)] <- names[which(singular_vec == 1)]
     return(data)
 }
 
 #add, if steps = NA, while(sum(init) != length(init)) ie. run until all states are infected.
+#same time step, record both
+#efficiency
 runSimulation <- function(init, steps, est_rate, 
                           df1 = p1, df2 = p2, df3 = p3, df4 = p4, names = states) {
-    fileConn <- file("output.txt")
+    cat("", file = "output.txt", append = FALSE)
     len <- length(init)
     output <- data.frame(state = rep(NA, len), infection_status = rep(NA, len),
                          time_infected = rep(NA, len), origin = rep(NA, len))
@@ -83,11 +74,12 @@ runSimulation <- function(init, steps, est_rate,
                                      alpha = est_rate)
             current_state <- sanitize(current_state + new_temp_vec)
             output <- recordInfo(state_vec = current_state, orig_vec = init, 
-                                 singular_vec = temp_vec, time_step = step, data = output)
+                                 singular_vec = temp_vec, time_step = step, names = names,
+                                 data = output)
             lines <- paste(output$origin, collapse = ", ")
-            cat(lines, file = fileConn, append = TRUE, sep = "\n")
+            cat(lines, file = "output.txt", append = TRUE, sep = "\n")
+            init <- current_state
         }
-        init <- current_state
     }
     output
 }
