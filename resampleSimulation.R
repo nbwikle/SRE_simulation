@@ -5,9 +5,10 @@
 #infection in states only as a binary variable: 1 is infected and 0 is not. Alpha is the
 #establishment rate. The matrix is set up such that connections run from j to i.
 output <- data.frame(state = 0, infection_status = 0, time_infected = 0, origin = 0)
+weight_data <- c(p1, p2, p3, p4)
 
 #Have to edit this based on which locations you're using.
-names <- c("Alabama","Alaska","Arizona","Arkansas","California",
+states <- c("Alabama","Alaska","Arizona","Arkansas","California",
            "Colorado","Connecticut","Delaware","Florida","Georgia","Idaho",
            "Illinois","Indiana","Iowa","Kansas","Kentucky","Louisiana","Maine","Maryland",
            "Massachusetts","Michigan","Minnesota","Mississippi","Missouri","Montana",
@@ -56,21 +57,24 @@ sanitize <- function(vector) {
 
 
 recordInfo <- function(state_vec, orig_vec, time_step, data) {
-    data$infection_status <- state_vec
+    data$infection_status <- as.matrix(state_vec)
     data$time_infected[which(state_vec != orig_vec)] <- time_step
     data$origin[which(state_vec != orig_vec)] <- names[which(orig_vec == 1)]
     return(data)
 }
 
 #add, if steps = NA, while(sum(init) != length(init)) ie. run until all states are infected.
-runSimulation <- function(init, steps, est_rate) {
+runSimulation <- function(init, steps, est_rate, 
+                          df1 = p1, df2 = p2, df3 = p3, df4 = p4, names = states) {
+    output <- data.frame(state = 0, infection_status = 0, time_infected = 0, origin = 0)
+    
     for(step in 1:length(steps)) { #Run the simulation for a number of steps
         current_state = init                     #Keep track of new state_vector after each step
         indices <- which(init == 1)          #Find which indices to split vector into
         for(i in 1:sum(init)) {               #This loop splits the vector and runs a step for each
             vec <- rep(0, length(init))      
             vec[indices[i]] <- 1
-            mat <- generateP(p1, p2, p3, p4)
+            mat <- generateP(df1, df2, df3, df4)
             new_vec <- stepOnce(state_vec = vec, transition_mat = mat$P, alpha = est_rate)
             output <- recordInfo(state_vec = new_vec, orig_vec = vec, time_step = step, data = output)
             current_state = current_state + new_vec
