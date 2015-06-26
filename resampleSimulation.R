@@ -56,30 +56,38 @@ sanitize <- function(vector) {
 }
 
 
-recordInfo <- function(state_vec, orig_vec, time_step, data) {
-    data$infection_status <- as.matrix(state_vec)
+recordInfo <- function(state_vec, orig_vec, singular_vec, time_step, data) {
+    data$state <- states
+    data$infection_status <- state_vec
     data$time_infected[which(state_vec != orig_vec)] <- time_step
-    data$origin[which(state_vec != orig_vec)] <- names[which(orig_vec == 1)]
+    data$origin[which(state_vec != orig_vec)] <- states[which(singular_vec == 1)]
     return(data)
 }
 
 #add, if steps = NA, while(sum(init) != length(init)) ie. run until all states are infected.
 runSimulation <- function(init, steps, est_rate, 
                           df1 = p1, df2 = p2, df3 = p3, df4 = p4, names = states) {
-    output <- data.frame(state = 0, infection_status = 0, time_infected = 0, origin = 0)
+    fileConn <- file("output.txt")
+    len <- length(init)
+    output <- data.frame(state = rep(NA, len), infection_status = rep(NA, len),
+                         time_infected = rep(NA, len), origin = rep(NA, len))
     
-    for(step in 1:length(steps)) { #Run the simulation for a number of steps
+    for(step in 1:steps) { #Run the simulation for a number of steps
         current_state = init                     #Keep track of new state_vector after each step
         indices <- which(init == 1)          #Find which indices to split vector into
         for(i in 1:sum(init)) {               #This loop splits the vector and runs a step for each
-            vec <- rep(0, length(init))      
-            vec[indices[i]] <- 1
+            temp_vec <- rep(0, length(init))      
+            temp_vec[indices[i]] <- 1
             mat <- generateP(df1, df2, df3, df4)
-            new_vec <- stepOnce(state_vec = vec, transition_mat = mat$P, alpha = est_rate)
-            output <- recordInfo(state_vec = new_vec, orig_vec = vec, time_step = step, data = output)
-            current_state = current_state + new_vec
+            new_temp_vec <- stepOnce(state_vec = temp_vec, transition_mat = mat$P, 
+                                     alpha = est_rate)
+            current_state <- sanitize(current_state + new_temp_vec)
+            output <- recordInfo(state_vec = current_state, orig_vec = init, 
+                                 singular_vec = temp_vec, time_step = step, data = output)
+            lines <- paste(output$origin, collapse = ", ")
+            cat(lines, file = fileConn, append = TRUE, sep = "\n")
         }
-        init <- sanitize(current_state)
+        init <- current_state
     }
     output
 }
