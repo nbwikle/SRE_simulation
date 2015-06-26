@@ -32,3 +32,7 @@ weight <- function(data,com=TRUE,mode=TRUE,w=0){
   return(W)
 }
 
+#a function to remove HA from a given matrix P
+removeHA<-function(P){
+    return(P[-(11),-(11)])
+}
