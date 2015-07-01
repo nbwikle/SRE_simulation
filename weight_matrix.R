@@ -37,4 +37,4 @@ removeHI<-function(P){
   return(P[-(11),-(11)])
 }
 
->>>>>>> 4a80029b93d09fd44e95ac4c4d56f495bad7bb46
+
