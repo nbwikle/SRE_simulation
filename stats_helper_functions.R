@@ -27,7 +27,7 @@ inf_by <- function(df,pos) {
   # initialize the infected_by vector
   infect<-rep(0,nrow(df)) 
   # determine which states were responsible for infection
-  s<-unlist(strsplit(df[pos,4], split = ", "))
+  s<-unlist(strsplit(as.character(df[pos,4]), split = ", "))
   # replace 0's by 1's if a state was responsible for infection
   infect[ factor_pos(s,df[,1]) ] <- 1 
   # create the output dataframe.
