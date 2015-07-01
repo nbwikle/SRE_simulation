@@ -9,37 +9,10 @@ names(d2)<-c("origin","destination","mode","weight","ton-mile","value1")
 names(d3)<-c("origin","destination","mode","weight","ton-mile","value1")
 names(d4)<-c("origin","destination","mode","weight","ton-mile","value1")
 
-#Find total weights of all connections originating from i state.
-sumW <- function(data,coord) {
-    w <- c(rep(0, times=nrow(coord)))
-    orig<-data[1,1]
-    for(i in 1:nrow(data)) {
-        if (orig != data[i,1])
-        {
-            orig<-data[i,1]
-        }
-        w[as.numeric(orig)]=w[as.numeric(orig)]+data[i,4]
-    }
-    return(w)
-}
-
-#Calculate relative weights in matrix (essentially, probability to reach state b, c, etc. from a)
-calcP<- function(data,w,coord) {
-    p<-matrix(data=0,nrow=nrow(coord),ncol=nrow(coord), dimnames = list(names, names))
-    for(i in 1:nrow(data)) {
-        p[as.numeric(data[i,1]),as.numeric(data[i,2])] <- data[i,4]/w[as.numeric(data[i,1])]
-    }  
-    return(p)
-}
-
-w1 <- sumW(d1, state.coord)
-w2 <- sumW(d2, state.coord)
-w3 <- sumW(d3, state.coord)
-w4 <- sumW(d4, state.coord)
-p1 <- calcP(d1, w1, state.coord)
-p2 <- calcP(d2, w2, state.coord)
-p3 <- calcP(d3, w3, state.coord)
-p4 <- calcP(d4, w4, state.coord)
+w1 <- weight(d1)
+w2 <- weight(d2)
+w3 <- weight(d3)
+w4 <- weight(d4)
 
 #Have to edit this based on which locations you're using.
 states <- c("Alabama","Alaska","Arizona","Arkansas","California",
@@ -122,9 +95,10 @@ recordInfo <- function(state_vec, orig_vec, singular_vec, time_step, names, data
 #different data matrices to sample from. If you do, and the dimensions are different, you must
 #give it a fitting names vector (same number of rows as your data matrix).
 runSimulation <- function(init, steps, est_rate, 
-                          df1 = p1, df2 = p2, df3 = p3, df4 = p4, names = states) {
+                          df1 = w1, df2 = w2, df3 = w3, df4 = w4, names = states) {
     cat("", file = "output.csv", append = FALSE)
     len <- length(init)
+    orig_indices <- which(init == 1)
     
     #creates the output data frame
     output <- data.frame(state = rep(NA, len), infection_status = rep(NA, len),
@@ -150,6 +124,11 @@ runSimulation <- function(init, steps, est_rate,
             current_state <- sanitize(current_state)         #Update the current state vector
             init <- current_state                            #Update the initial vector
         }
+    }
+    for(i in 1:length(orig_indices)) {
+        index <- orig_indices[i]
+        output$time_infected[index] <- NA
+        output$origin[index] <- NA
     }
     output
 }
@@ -185,4 +164,4 @@ test2 <- p2[1:3,1:3]
 test3 <- p3[1:3,1:3]
 test4 <- p4[1:3,1:3]
 runSimulation(initial, 10, 0.5, test1, test2, test3, test4, testnames)
-
+runSimulation(init_ial, 20, 0.2, w1, w2, w3, w4)
