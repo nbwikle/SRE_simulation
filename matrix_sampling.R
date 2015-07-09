@@ -3,8 +3,13 @@
 # transition matrix.
 # input: M1,M2,M3,M3; four matrices, containing weights sent from j
 #   to i
-# output: a list, where $W is the new wieght matrix, and 
+# output: a list, where $W is the new wieght matrix, and
 #   $P is the new transition matrix
+
+# note: this function was edited to sample column j from M, rather than element
+#   m_ij.  This change was incorporated to ensure that the total amount of
+#   commodity produced in state j remains consistent with the original sampled
+#   year.
 generateP <- function(M1,M2,M3,M4){
   dim <- nrow(M1)
   # initialize matrices to 0
@@ -12,18 +17,16 @@ generateP <- function(M1,M2,M3,M4){
   P<-matrix(rep(0,dim*dim),nrow=dim)
   
   # sampling process
-  for (i in 1:dim){
-    for (j in 1:dim){
-      s<-sample.int(4,size=1,replace=TRUE)
-      if (s==1){
-        W[i,j]=M1[i,j]
-      } else if (s==2){
-        W[i,j]=M2[i,j]
-      } else if (s==3){
-        W[i,j]=M3[i,j]
-      } else {
-        W[i,j]=M4[i,j]
-      }
+  for (j in 1:dim){
+    s<-sample.int(4,size=1,replace=TRUE)
+    if (s==1){
+      W[,j]=M1[,j]
+    } else if (s==2){
+      W[,j]=M2[,j]
+    } else if (s==3){
+      W[,j]=M3[,j]
+    } else {
+      W[,j]=M4[,j]
     }
   }
   

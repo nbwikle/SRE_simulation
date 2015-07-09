@@ -60,23 +60,16 @@ sanitize <- function(vector) {
 #This function looks for differences between the state_vec(current) and orig_vec(initial) 
 #and counts each significant difference as an infection event, and records it, the time step
 #where it occurs, and the state the infection came from.
-recordInfo <- function(state_vec, orig_vec, singular_vec, time_step, names, data) {
-    indices <- which(state_vec != orig_vec)        #indices of differences;
-    orig_index <- which(singular_vec == 1)         #does not count the origin of
-    indices <- indices[indices != orig_index]      #infection as a significant difference
+recordInfo <- function(state_vec, orig_vec, orig_index, time_step, names, data) {
+    indices <- which(state_vec != orig_vec)        #indices of differences    #infection as a significant difference
     orig <- names[orig_index]
     data$state <- eval(names)
-    data$infection_status <- sanitize(state_vec)   #fills in with newest state vector
+    data$infection_status <- state_vec  #fills in with newest state vector
     
     if(length(indices) > 0) {                      #for each significant difference
         for(i in 1:length(indices)) {            
             index <- indices[i]                    #adds time step and state of origin
-            if(!is.na(data$origin[index])) {
-                data$origin[index] <- paste(data$origin[index], orig, sep = ", ")
-            }
-            else {
-                data$origin[index] <- orig
-            }
+            data$origin[index] <- orig
             
             if(!is.na(data$time_infected[index])) {
                 data$time_infected[index] <- paste(data$time_infected[index], time_step, sep = ", ")
@@ -96,7 +89,6 @@ recordInfo <- function(state_vec, orig_vec, singular_vec, time_step, names, data
 #give it a fitting names vector (same number of rows as your data matrix).
 runSimulation <- function(init, steps, est_rate, 
                           df1 = w1, df2 = w2, df3 = w3, df4 = w4, names = states) {
-    cat("", file = "output.csv", append = FALSE)
     len <- length(init)
     orig_indices <- which(init == 1)
     
@@ -105,25 +97,24 @@ runSimulation <- function(init, steps, est_rate,
                          time_infected = rep(NA, len), origin = rep(NA, len))
     
     for(step in 1:steps) {                    #Run the simulation for a number of steps
-        current_state = init                  #Keep track of new state_vector after each step
+        total <- 0                #Keep track of new state_vector after each step
         indices <- which(init == 1)           #Find which indices to split vector into
         for(i in 1:sum(init)) {               #This loop splits the vector and runs a step for each
-            temp_vec <- rep(0, length(init))      
+            temp_vec <- rep(0, len)      
             temp_vec[indices[i]] <- 1         #Generates the split vector of the ith iteration
         
             mat <- generateP(df1, df2, df3, df4)$P       #Generates the resampled matrix
             
             new_temp_vec <- stepOnce(state_vec = temp_vec, transition_mat = mat, 
                                      alpha = est_rate)       #Steps once with the split vector
-            current_state <- current_state + new_temp_vec    #Updates the current state vector
+            current_state <- sanitize(init + new_temp_vec)   #Updates the current state vector
             output <- recordInfo(state_vec = current_state, orig_vec = init, 
-                                 singular_vec = temp_vec, time_step = step, names = names,
+                                 orig_index = indices[i], time_step = step, names = names,
                                  data = output)              #Records data at each iteration
-            lines <- paste(output$origin, collapse = ", ")
-            cat(lines, file = "output.csv", append = TRUE, sep = "\n")
-            current_state <- sanitize(current_state)         #Update the current state vector
-            init <- current_state                            #Update the initial vector
+            lines <- paste(output$origin, collapse = ", ")    #Update the current state vector    
+            total <- sanitize(total + current_state)                        #Update the initial vector
         }
+        init <- total
     }
     for(i in 1:length(orig_indices)) {
         index <- orig_indices[i]

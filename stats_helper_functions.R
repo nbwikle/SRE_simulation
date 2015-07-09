@@ -1,6 +1,6 @@
 # stats_helper_functions.R
 # created by: Nathan Wikle, 30 June 2015
-# last edited: 30 June 2015
+# last edited: 1 July 2015
 
 # The following are helper functions for calc_stats(). They must 
 # all be uploaded before calc_stats will correctly run.
