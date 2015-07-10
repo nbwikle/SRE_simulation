@@ -33,7 +33,7 @@ states <- c("Alabama","Alaska","Arizona","Arkansas","California",
 #ALgorithm is 1) Load state vector. 2) Populate data matrix 3) Matrix multiply 4) Record
 #infections 5) Bump fully established elements to 1. 6) Repeat until last time step
 
-runModel <- function(S_0, N, m1, m2, m3, m4, names = states, out = "proportions") {
+runModel <- function(S_0, N, m1, m2, m3, m4, names = states, out = "state") {
     S_n <- S_0
     len = length(names)
     if(out == "state") {
@@ -47,7 +47,7 @@ runModel <- function(S_0, N, m1, m2, m3, m4, names = states, out = "proportions"
     }
     
     for(n in 1:N) {
-        indices <- which(S_n == 1)
+        indices <- which(S_n >= 1)
         P <- generateP(m1, m2, m3, m4)$P
         
         if(out == "state") {
