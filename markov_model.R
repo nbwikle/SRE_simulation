@@ -36,29 +36,38 @@ states <- c("Alabama","Alaska","Arizona","Arkansas","California",
 runModel <- function(S_0, N, m1, m2, m3, m4, names = states, out = "proportions") {
     S_n <- S_0
     len = length(names)
-    if(out == "proportions") {
-        output = list(0)
+    if(out == "state") {
+        output1 = list(0)
     }
-    else if(out == "establishment") {
-        output = data.frame(state = names, invaded = 
+    #else if(out == "establishment") {
+    #    output = data.frame(state = names, invaded = 
+    #}
+    if(out == "state") {
+        output = list(0)
     }
     
     for(n in 1:N) {
         indices <- which(S_n == 1)
         P <- generateP(m1, m2, m3, m4)$P
         
-        if(out == "proportions") {
+        if(out == "state") {
             proportions = matrix(nrow = len, ncol = len)
             for(j in 1:len) {
                 proportions[, j] <- P[, j]*S_n[j]
             }
-            output[[n]] <- proportions
+            output1[[n]] <- proportions
         }
         
-        S_n <- P%*%S_0
+        
+        S_n <- P%*%S_n
         S_n[indices] <- 1
+        
+        if(out == "state") {
+            output[[n]] <- S_n
+        }
     }
-    output
+    out <- list(output1, output)
+    out
 }
 
 generateStats <- function(out) {
