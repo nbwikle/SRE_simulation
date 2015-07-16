@@ -12,8 +12,8 @@
 weight <- function(data,com=TRUE,mode=TRUE,w=0){
   # determine the position of the weights
   p<-5 + w
-  if (!com) p <- v-1
-  if (!mode) p <- v-1
+  if (!com) p <- p-1
+  if (!mode) p <- p-1
   
   # determine the dimensions of the matrix
   a<-length(unique(data[,1]))
