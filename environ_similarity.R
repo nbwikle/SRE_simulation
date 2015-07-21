@@ -9,6 +9,7 @@
 #This is done so when P is multiplied by the similarity matrix, it doesn't not affect
 #the overall growth of the infection but only it's distribution (approximately)
 
+
 library(sqldf)
 library(data.table)
 
@@ -88,7 +89,7 @@ rownames(average_precip) <- NULL
 
 precip_dist <- as.matrix(dist(average_precip[,2:13]), dimnames = list(average_precip$State, 
                                                                     average_precip$State))
-precip_sim <- precip_dist / max(precip_dist)
+precip_sim <- 1 - (precip_dist - min(precip_dist)) / (max(precip_dist) - min(precip_dist))
 
 #Find average annual temp, change units to Fahrenheit
 average_temp$"Avg(Ann)" <- apply(average_temp[,-1], 1, mean)
@@ -104,12 +105,9 @@ rownames(average_temp) <- NULL
 temp_dist <- as.matrix(dist(average_temp[,2:13]), dimnames = list(average_temp$State, 
                                                                     average_temp$State))
 
-temp_sim <- temp_dist / max(temp_dist)
+temp_sim <- 1 - (temp_dist - min(temp_dist)) / (max(temp_dist) - min(temp_dist))
 
 sim <- (temp_sim + precip_sim) / 2
-temporary_sim <- sim
-temporary_sim[temporary_sim == 0] <- 1
-norm_sim <- sim / mean(temporary_sim)
-norm_sim[norm_sim == 0] <- 1
+
 
 

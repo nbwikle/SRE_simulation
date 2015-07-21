@@ -1,6 +1,10 @@
 #markov_model.R
 #Model for invasive species spread. Uses a state vector of decimals representing the "fractional
 #establishment" of an invasive species in a certain region.
+
+#UPDATE 07.20.15 Changed environmental similarity matrix to judge difference based on
+#susceptible state and initial state comparison, rather than the state directly causing
+#the infection.
 library(ggplot2)
 library(reshape2)
 
@@ -31,7 +35,7 @@ runModel <- function(S_0, N, m1, m2, m3, m4, names = states, out = "state") {
     
     for(n in 1:N) {
         indices <- which(S_n >= 1)
-        P <- (generateP(m1, m2, m3, m4)$P) * norm_sim #Take out norm_sim to remove environ similarity matrix
+        P <- (generateP(m1, m2, m3, m4)$P) 
         
         if(out == "proportion" || out == "both") {
             proportions = matrix(nrow = len, ncol = len)
@@ -43,6 +47,11 @@ runModel <- function(S_0, N, m1, m2, m3, m4, names = states, out = "state") {
         }
         
         S_n <- P%*%S_n
+        
+        if(n == 1) {
+            S_n <- S_n * sim[indices,]
+        }
+        
         S_n[indices] <- 1
         
         if(out == "state" || out == "both") {
@@ -74,7 +83,7 @@ runGrowthModel <- function(S_0, N, m1, m2, m3, m4, names = states, out = "state"
     
     for(n in 1:N) {
         indices <- which(S_n >= 1)
-        P <- (generateP(m1, m2, m3, m4)$P) * norm_sim #Take out norm_sim to remove environ similarity matrix
+        P <- (generateP(m1, m2, m3, m4)$P)
         
         if(out == "proportion" || out == "both") {
             proportions = matrix(nrow = len, ncol = len)
@@ -87,6 +96,11 @@ runGrowthModel <- function(S_0, N, m1, m2, m3, m4, names = states, out = "state"
         
         S_n <- (1*S_n) / (S_n + (1 - S_n)*exp(-r_0*n))
         S_n <- P%*%S_n
+        
+        if(n == 1) {
+            S_n <- S_n * sim[indices,]
+        }
+        
         S_n[indices] <- 1
         
         if(out == "state" || out == "both") {
@@ -108,12 +122,12 @@ runGrowthModel <- function(S_0, N, m1, m2, m3, m4, names = states, out = "state"
 
 
 runMany <- function(init, times, steps, m1, m2, m3, m4, names = states,
-                    method = "state", growth = FALSE) {
+                    method = "state", growth = TRUE) {
     out = list(0)
     if(growth == TRUE) {
         for(i in 1:times) {
             out[[i]] <- runGrowthModel(S_0 = init, N = steps, m1 = m1, m2 = m2, m3 = m3, m4 = m4,
-                                       names = names, out = method, r_0 = 0.01)
+                                       names = names, out = method, r_0 = .01)
         }
     }
     else {
@@ -160,24 +174,67 @@ generateRisk <- function(data, state, levels = c(0.1, 0.2, 0.5)) {
             
             prob[step] <- count / num_runs
         }
-        df <- data.frame(probability = prob, time = 1:time_steps, level = as.factor(level),
+        df <- data.frame(probability = prob, time = 1:time_steps, Level = as.factor(level),
                          state = state)
         output_data[[i]] <- df
     }
     output_data
 }
 
-plotRisk <- function(risk_data) {
+#Uses runMany() to run many simulations given an initial state and standard parameters, for 
+#"times" number of runes, for "steps" time steps in each run, using the accepted data.
+plotRisk <- function(init_state, target_state, times, steps,
+                     growth = TRUE, levels = c(0.1, 0.2, 0.5)) {
+    
+    initial <- rep(0, 51)
+    index <- which(states == init_state)
+    initial[index] <- 1                       #Creates the initial state vector
+    
+    state_data <- runMany(initial, times, steps, w1, w2, w3, w4)
+    risk_data <- generateRisk(state_data, target_state, levels)
+    
     levels = length(risk_data)
     df <- do.call("rbind", risk_data)
     state = levels(df$state)
     title <- paste("Invasion Risk Over Time for", state)
-    plot <- ggplot(df, aes(time, probability, col = level))
-    plot <- plot + geom_smooth() + ggtitle(title)
+    plot <- ggplot(df, aes(time, probability, col = Level))
+    plot <- plot + geom_point() + geom_line() + ggtitle(title)
     plot <- plot + xlab("Years") + ylab("Probability[Establishment > Level]")
+    plot <- plot + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+                         panel.background = element_blank(), legend.background = element_blank(), 
+                         axis.line.x = element_line(colour = "black"), 
+                         axis.line = element_line(colour = "black"),
+                         axis.text.y = element_text(size=10),
+                         axis.text.x = element_text(size=10),
+                         axis.title.y = element_text(size=14, vjust = 1),
+                         axis.title.x = element_text(size=14, vjust = 1),
+                         plot.title = element_text(size = 16, vjust = 1))
     plot
 }
 
+#Used to test aesthetics of graphics.
+testRisk <- function(risk_data) {
+    levels = length(risk_data)
+    df <- do.call("rbind", risk_data)
+    state = levels(df$state)
+    title <- paste("Invasion Risk Over Time for", state)
+    plot <- ggplot(df, aes(time, probability, col = Level))
+    plot <- plot + geom_point() + geom_line() + ggtitle(title)
+    plot <- plot + xlab("Years") + ylab("Probability[Establishment > Level]")
+    plot <- plot + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
+                         panel.background = element_blank(), legend.background = element_blank(), 
+                         axis.line.x = element_line(colour = "black"), 
+                         axis.line = element_line(colour = "black"),
+                         axis.text.y = element_text(size=10),
+                         axis.text.x = element_text(size=10),
+                         axis.title.y = element_text(size=14, vjust = 1),
+                         axis.title.x = element_text(size=14, vjust = 1),
+                         plot.title = element_text(size = 16, vjust = 1))
+    plot
+}
+
+#Runs simulations for an initial starting state, and then aggregates and creates a time
+#series of choropleth maps for it.
 createMaps <- function(init_state, years, simulations, growth = FALSE) {
     initial <- rep(0, 51)
     index <- which(states == init_state)
