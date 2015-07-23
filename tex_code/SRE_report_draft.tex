@@ -163,9 +163,9 @@ Shipping data were obtained from the Freight Analysis Framework (FAF), a databas
 
 An effort was made to classify the large-scale domestic commodity shipping networks obtained from the FAF database.  Basic network topological features have been used to characterize many existing real-world networks, including the internet, the World Wide Web, biological networks (intracellular biochemical pathways, genetic regulatory networks, etc.), and a variety of transportation networks (Barrat et al. 2008).  These complex networks are often classified as having small-world and scale-free properties, an indication of the presence of important high-degree nodes known as hubs.  In particular, the worldwide air-transportation network (WAN) has been found to have heavy-tailed, power-law degree and strength distributions (Barrat et al. 2004, Guimera and Amaral 2004), while the global cargo-ship network (GCSN) has a right-skewed degree distribution, and power-law weight and strength distributions (Kaluza et al. 2009).  Because the WAN and GCSN are large-scale transportation networks, it was expected that the domestic shipping networks obtained from the FAF would have similar network characteristics - in particular, that the FAF networks would have small-world and scale-free properties.
 
-However, an initial analysis of the FAF networks reveals a less structured topology.  As an example, consider the network of agricultural products transported by truck between the 123 FAF designated metropolitan regions of the United States.  A small-world network has the property that any two vertices can be traveled between by passing through a small number of intermediate vertices, while also requiring the existence of highly-clustered nodes.  This property can be measured by examining the relationship between the average shortest path length $\big \langle l \big \rangle$ and $M(l)$, the average number of nodes within a distance less than or equal to $l$ from any given vertex.  $M(l)$ is expected to increase exponentially in a small-world network (Barrat et al. 2008).  As shown in Figure [number], any two nodes in the agricultural commodity network can be reached within two steps.  However, because nodes in this network are highly connected ($\big \langle k \big \rangle = 80$), it is unclear if the observed relationship is a result of node clustering.  
+However, an initial analysis of the FAF networks reveals a less structured topology.  As an example, consider the network of agricultural products transported by truck between the 123 FAF designated metropolitan regions of the United States.  A small-world network has the property that any two vertices can be traveled between by passing through a small number of intermediate vertices, while also requiring the existence of highly-clustered nodes.  This property can be measured by examining the relationship between the average shortest path length $\big \langle l \big \rangle$ and $M(l)$, the average number of nodes within a distance less than or equal to $l$ from any given vertex.  $M(l)$ is expected to increase exponentially in a small-world network (Barrat et al. 2008).  As shown in Figure~\ref{fig:plot length}, any two nodes in the agricultural commodity network can be reached within two steps.  However, because nodes in this network are highly connected ($\big \langle k \big \rangle = 80$), it is unclear if the observed relationship is a result of node clustering.  
 
-The classification of the agricultural commodity network as scale-free is also ambiguous.  The degree distribution $P(k)$ for the network is shown in [Figure x].  Notice that there is an increase in $P(k)$ as $k$ increases, and the network shows no evidence of a heavy-tail degree distribution.  However, when strength and edge weight distributions are considered, we observe that each is heavy-tailed and approximates a power-law distribution (Figure y and Figure x).  Thus, there appears to be a correlation between the weighted properties of the network and the network topologies.  Although these results are specific to the agricultural commodity network, they are largely representative of the many commodity flow networks found in the FAF database.  We believe that the difference in the degree and weighted property distributions is a characteristic of the highly aggregated node structure of the network, the spatial properties of the existing domestic infrastructure, and the addition of noise and variation into the data itself. A more thorough exploration of the statistical and topological properties is needed to correctly classify the shipping networks.
+The classification of the agricultural commodity network as scale-free is also ambiguous.  The degree distribution $P(k)$ for the network is shown in Figure~\ref{fig:degree dist}.  Notice that there is an increase in $P(k)$ as $k$ increases, and the network shows no evidence of a heavy-tail degree distribution.  However, when strength and edge weight distributions are considered, we observe that each is heavy-tailed and approximates a power-law distribution (Figure~\ref{fig:strength dist} and Figure~\ref{fig:weight dist}).  Thus, there appears to be a correlation between the weighted properties of the network and the network topologies.  Although these results are specific to the agricultural commodity network, they are largely representative of the many commodity flow networks found in the FAF database.  We believe that the difference in the degree and weighted property distributions is a characteristic of the highly aggregated node structure of the network, the spatial properties of the existing domestic infrastructure, and the addition of noise and variation into the data itself. A more thorough exploration of the statistical and topological properties is needed to correctly classify the shipping networks.
 
 \subsection*{A Domestic Shipping Pathway Model}
 
@@ -237,9 +237,9 @@ In addition to making projections of invasion spread via the commodity pathway m
 
 \item  We developed a web tool available for use by the scientific community as well as the general public. This site is accessible through the NIMBioS webpage at \url{http://rweb.nimbios.org:3838/sreuser/faf-data-visualization-system/}. The commodity flow visualization system allows users to select origins and destinations within the United States, and displays commodity flows based on the user's choice of commodity and mode of transport. This tool is a significant advancement beyond those currently available freely online and through the Freight Analysis Framework website, as similar services do not allow selection of specific commodities or modes of transport. We anticipate the web tool will be useful to researchers wishing to quickly identify high volume shipping pathways that might act as significant pathways of species invasions. 
 
-\item We created choropleth maps to show the spread of an invasive species over time given a set of initial conditions. Each map plots the state vector, containing the proportion of species establishment in each state, for each year in the simulation. The final output is a series of choropleth maps showing the change in the percentage of establishment in each state over the whole simulation runtime. These maps provide an immediate visual interpretation of the threat and spread rate of a particular species. 
+\item We created choropleth maps (example: Figure~\ref{fig:spread map}) to show the spread of an invasive species over time given a set of initial conditions. Each map plots the state vector, containing the proportion of species establishment in each state, for each year in the simulation. The final output is a series of choropleth maps showing the change in the percentage of establishment in each state over the whole simulation runtime. These maps provide an immediate visual interpretation of the threat and spread rate of a particular species. 
 
-\item We developed families of risk curves for the invasion of a given destination state within a standard time frame. The y-axis measures the probability that an invasive species becomes established beyond a certain threshold level in the state within a given number of years, shown along the x-axis. Each curve charts the risk associated with a different threshold level of establishment.
+\item We developed families of risk curves (Figure~\ref{fig:risk curve}) for the invasion of a given destination state within a standard time frame. The y-axis measures the probability that an invasive species becomes established beyond a certain threshold level in the state within a given number of years, shown along the x-axis. Each curve charts the risk associated with a different threshold level of establishment.
 
 \end{enumerate}
 
@@ -271,6 +271,59 @@ Special thanks to our mentors, Dr. Daniel Simberloff and Dr. Louis Gross, and gr
 
 \section*{References}
 
+\section*{Figures}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.75\textwidth]{length_plot.pdf}
+	\caption{Average number of nodes $M(l)$ within a distance less than or equal to $l$ from any given vertex, for the 2012 agricultural commodity shipping network.}
+	\label{fig:plot length}
+\end{figure}
+
+
+\begin{figure}[h]
+	\centering
+	\begin{subfigure}[b]{0.5\textwidth}
+		\centering
+        	\includegraphics[width=\textwidth]{degree_dist.pdf}
+        	\caption{Degree distribution $P(k)$}
+        	\label{fig:degree dist}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.5\textwidth}
+		\centering
+        	\includegraphics[width=\textwidth]{strength_dist.pdf}
+        	\caption{Strength distribution $P(s)$}
+        	\label{fig:strength dist}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.5\textwidth}
+		\centering
+    		\includegraphics[width=\textwidth]{weight_dist.pdf}
+   		\caption{Weight distribution $P(w)$}
+        	\label{fig:weight dist}
+	\end{subfigure}
+	\caption{Network characteristic distributions for the 2012 agricultural commodity shipping network}
+	\label{fig:distributions}
+\end{figure}
+		
+		
+				
+
+\begin{figure}[h]
+	\centering
+		\includegraphics{agprod.png}
+	\caption{Year 20 choropleth map of projected invasive fire ant spread from Alabama and transported via agricultural products. Growth rate of $r = 0.01$ was used. The plot shows the aggregate result from 100 simulations.}
+	\label{fig:spread map}
+\end{figure}
+
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics{riskcurve.png}
+	\end{center}
+	\caption{Risk curves for probability of passing establishment threshold in California. Plot shows aggregate result of 150 runs with 50 years in each. The simulations were initialized with Alabama fully established and growth rate $r = 0.01$ using data on agricultural products shipped by truck. }
+	\label{fig:risk curve}
+\end{figure}
 
 
 
