@@ -1,0 +1,52 @@
+This is BibTeX, Version 0.99d (TeX Live 2012)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: invasives_SRE_report_draft.aux
+The style file: plainnat.bst
+Database file #1: sre_refs.bib
+Warning--entry type for "NOAA" isn't style-file defined
+--line 21 of file sre_refs.bib
+Warning--entry type for "FAFwebsite" isn't style-file defined
+--line 38 of file sre_refs.bib
+Warning--empty year in NOAA
+You've used 23 entries,
+            2773 wiz_defined-function locations,
+            756 strings with 9330 characters,
+and the built_in function-call counts, 10951 in all, are:
+= -- 933
+> -- 716
+< -- 10
++ -- 242
+- -- 219
+* -- 968
+:= -- 1716
+add.period$ -- 69
+call.type$ -- 23
+change.case$ -- 139
+chr.to.int$ -- 23
+cite$ -- 47
+duplicate$ -- 453
+empty$ -- 856
+format.name$ -- 252
+if$ -- 2264
+int.to.chr$ -- 1
+int.to.str$ -- 1
+missing$ -- 19
+newline$ -- 123
+num.names$ -- 92
+pop$ -- 261
+preamble$ -- 1
+purify$ -- 119
+quote$ -- 0
+skip$ -- 351
+stack$ -- 0
+substring$ -- 388
+swap$ -- 31
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 248
+warning$ -- 1
+while$ -- 85
+width$ -- 0
+write$ -- 300
+(There were 3 warnings)

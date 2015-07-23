@@ -1,0 +1,161 @@
+\begin{thebibliography}{23}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Barrat et~al.(2004)Barrat, Barth{\'e}lemy, Pastor-Satorras, and
+  Vespignani]{Barrat2004}
+A.~Barrat, M.~Barth{\'e}lemy, R.~Pastor-Satorras, and A.~Vespignani.
+\newblock The architecture of complex weighted networks.
+\newblock \emph{Proceedings of the National Academy of Sciences of the United
+  States of America}, 101\penalty0 (11):\penalty0 3747--3752, 2004.
+
+\bibitem[Barrat et~al.(2008)Barrat, Barthelemy, and Vespignani]{Barrat2008}
+Alain Barrat, Allesandro Barthelemy, and Alessandro Vespignani.
+\newblock \emph{Dynamical Processes on Complex Networks}.
+\newblock Cambridge University Press, 2008.
+
+\bibitem[Board(2008)]{NCHRP}
+Transportation~Research Board.
+\newblock \emph{NCHRP Report 606: Forecasting Statewide Freight Toolkit}.
+\newblock National Cooperative Highway Research Program, 2008.
+
+\bibitem[Chow et~al.(2010)Chow, Yang, and Regan]{Chow2010}
+Joseph Y.~J. Chow, Choon~Heon Yang, and Amelia~C. Regan.
+\newblock State-of-the art of freight forecast modeling: lessons learned and
+  the road ahead.
+\newblock \emph{Transportation}, 37\penalty0 (6):\penalty0 1011--1030, 2010.
+
+\bibitem[Colunga-Garcia et~al.(2009)Colunga-Garcia, Haack, and
+  Adelaja]{Colunga2009}
+Manuel Colunga-Garcia, Robert~A. Haack, and Adesoji~O. Adelaja.
+\newblock Freight transportation and the potential for invasions of exotic
+  insects in urban and periurban forests of the united states.
+\newblock \emph{Journal of Economic Entomology}, 102\penalty0 (1):\penalty0
+  237--246, 2009.
+
+\bibitem[Drake and Lodge(2004)]{Drake2004}
+John~M. Drake and David~M. Lodge.
+\newblock Global hot spots of biological invasions: evaluating options for
+  ballast water management.
+\newblock \emph{Proceedings of the Royal Society of London B: Biological
+  Sciences}, 271\penalty0 (1539):\penalty0 575--580, 2004.
+
+\bibitem[FHWA(2015)]{FAFwebsite}
+FHWA.
+\newblock Freight analysis framework, May 2015.
+\newblock URL
+  \url{http://ops.fhwa.dot.gov/Freight/freight_analysis/faf/index.htm}.
+
+\bibitem[Guimer{\'a} and Amaral(2004)]{Guimera2004}
+R.~Guimer{\'a} and L.A.N. Amaral.
+\newblock Modeling the world-wide airport network.
+\newblock \emph{The European Physical Journal B - Condensed Matter and Complex
+  Systems}, 38\penalty0 (2):\penalty0 381--385, 2004.
+
+\bibitem[Hulme(2009)]{Hulme2009}
+Philip~E. Hulme.
+\newblock Trade, transport and trouble: managing invasive species pathways in
+  an era of globalization.
+\newblock \emph{Journal of Applied Ecology}, 46\penalty0 (1):\penalty0 10--18,
+  2009.
+
+\bibitem[Kaluza et~al.(2010)Kaluza, Kolzsch, Gastner, and Blasius]{Kaluza2009}
+Pablo Kaluza, Andrea Kolzsch, Michael~T. Gastner, and Bernd Blasius.
+\newblock The complex network of global cargo ship movements.
+\newblock \emph{Journal of The Royal Society Interface}, 7\penalty0
+  (48):\penalty0 1093--1103, 2010.
+
+\bibitem[Koch et~al.(2011)Koch, Yemshanov, Colunga-Garcia, Magarey, and
+  Smith]{Koch2011}
+Frank~H. Koch, Denys Yemshanov, Manuel Colunga-Garcia, RogerD. Magarey, and
+  WilliamD Smith.
+\newblock Potential establishment of alien-invasive forest insect species in
+  the united states: where and how many?
+\newblock \emph{Biological Invasions}, 13\penalty0 (4):\penalty0 969--985,
+  2011.
+
+\bibitem[Mack et~al.(2000)Mack, Simberloff, Lonsdale, Evans, Clout, and
+  Bazzaz]{Mack2000}
+Richard~N. Mack, Daniel Simberloff, Mark~W. Lonsdale, Harry Evans, Michael
+  Clout, and Fakhri~A. Bazzaz.
+\newblock Biotic invasions: Causes, epidemiology, global consequences, and
+  control.
+\newblock \emph{Ecological Applications}, 10\penalty0 (3):\penalty0 689--710,
+  June 2000.
+
+\bibitem[McCullough et~al.(2006)McCullough, Work, Cavey, Liebhold, and
+  Marshall]{McCullough2006}
+Deborah~G. McCullough, Timothy~T. Work, Joseph~F. Cavey, Andrew~M. Liebhold,
+  and David Marshall.
+\newblock Interceptions of nonindigenous plant pests at us ports of entry and
+  border crossings over a 17-year period.
+\newblock \emph{Biological Invasions}, 8\penalty0 (4):\penalty0 611--630, 2006.
+
+\bibitem[NOAA()]{NOAA}
+NOAA.
+\newblock U.s. climate normals.
+\newblock URL
+  \url{https://www.ncdc.noaa.gov/data-access/land-based-station-data/land-based-datasets/climate-normals/1981-2010-normals-data}.
+
+\bibitem[Paini and Yemshanov(2012)]{Paini2012}
+Dean~R. Paini and Denys Yemshanov.
+\newblock Modelling the arrival of invasive organisms via the international
+  marine shipping network: A khapra beetle study.
+\newblock \emph{PLoS ONE}, 7\penalty0 (9), 2012.
+
+\bibitem[Pastor-Satorras and Vespignani(2001)]{Pastor2001}
+Romualdo Pastor-Satorras and Alessandro Vespignani.
+\newblock Epidemic spreading in scale-free networks.
+\newblock \emph{Phys. Rev. Lett.}, 86\penalty0 (14):\penalty0 3200--3203, Apr
+  2001.
+
+\bibitem[Ruiz et~al.(2000)Ruiz, Rawlings, Dobbs, Drake, Mullady, Huq, and
+  Colwell]{Ruiz2000}
+Gregory~M. Ruiz, Tonya~K. Rawlings, Fred~C. Dobbs, Lisa~A. Drake, Timothy
+  Mullady, Anwarul Huq, and Rita~R. Colwell.
+\newblock Global spread of microorganisms by ships.
+\newblock \emph{Nature}, 408\penalty0 (6808):\penalty0 49--50, 2000.
+
+\bibitem[Seebens et~al.(2013)Seebens, Gastner, and Blasius]{Seebens2013}
+H.~Seebens, M.~T. Gastner, and B.~Blasius.
+\newblock The risk of marine bioinvasion caused by global shipping.
+\newblock \emph{Ecology Letters}, 16\penalty0 (6):\penalty0 782--790, 2013.
+
+\bibitem[Sivakumar and Bhat(2002)]{Sivakumar2002}
+Aruna Sivakumar and Chandra Bhat.
+\newblock Fractional split-distribution model for statewide commodity-flow
+  analysis.
+\newblock \emph{Transportation Research Record: Journal of the Transportation
+  Research Board}, 1790:\penalty0 80--88, 2002.
+
+\bibitem[Southworth et~al.(2011)Southworth, Peterson, Hwang, Chin, and
+  Davidson]{FAF3manual}
+Frank Southworth, Bruce~E. Peterson, Ho-Ling Hwang, Shih-Miao Chin, and Diane
+  Davidson.
+\newblock \emph{The Freight Analysis Framework Version 3 (FAF3): A Description
+  of the FAF3 Regional Database and How It Is Constructed}.
+\newblock Oak Ridge National Laboratory, June 2011.
+
+\bibitem[USDA(2010)]{USDA}
+USDA.
+\newblock \emph{Imported Fire Ant Program Manual}.
+\newblock United States Department of Agriculture, 1 edition, 2010.
+
+\bibitem[Work et~al.(2005)Work, McCullough, Cavey, and Komsa]{Work2005}
+Timothy~T. Work, Deborah~G. McCullough, Joseph~F. Cavey, and Ronald Komsa.
+\newblock Arrival rate of nonindigenous insect species into the united states
+  through foreign trade.
+\newblock \emph{Biological Invasions}, 7\penalty0 (2):\penalty0 323--332, 2005.
+
+\bibitem[Yemshanov et~al.(2013)Yemshanov, Koch, Ducey, Haack, Siltanen, and
+  Wilson]{Yemshanov2013}
+Denys Yemshanov, Frank Koch, Mark Ducey, Robert Haack, Marty Siltanen, and
+  Kirsty Wilson.
+\newblock Quantifying uncertainty in pest risk maps and assessments: adopting a
+  risk-averse decision maker's perspective.
+\newblock \emph{NeoBiota}, 18:\penalty0 193--218, Sep 2013.
+
+\end{thebibliography}
