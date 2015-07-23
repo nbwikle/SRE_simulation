@@ -189,7 +189,7 @@ To account for the reduced establishment potential of a species outside of their
 
 Environmental data were retrieved from the NOAA FTP service on 30 year normals of mean temperature and precipitation recorded at stations across the United States. Each row of data, representing one station, contains one value (the 30 year normal) for each month of the year. We aggregated the data to the state level, resulting in a matrix with 51 rows, representing all states and Washington D.C. The Euclidean distance between each of the vectors was calculated, and used to populate a 51 x 51 distance matrix $D$. Each element $D_{ij}$ signifies the distance in temperature or precipitation vector space between two states, and as a result $D$ is symmetric. This matrix is used to create the environmental similarity matrix $E$. Each element $E_{ij}$ was calculated by standardizing the distance matrix to values between 0 and 1, thus creating a dissimilarity matrix, and then subtracting the resulting value from one, creating the similarity matrix. Specifically,
 \[
-   E_{ij} = \frac{D_{ij} - min(D_{ij}){max(D_{ij}) - min(D_{ij})},
+   E_{ij} = \frac{D_{ij} - min\left(D_{ij}\right)}{max\left(D_{ij}\right) - min\left(D_{ij}\right)},
 \]
 where $min(D_{ij})$ and $min(D_{ij})$ refer to the minimum and maximum valued element in matrix $D$, respectively.  This was performed using both the temperature and precipitation data, and a linear combination of the resulting temperature environmental matrix $E^{T}$ and precipitation environmental matrix $E^{P}$ gives $E = \alpha E^{T} + (1-\alpha) E^{P}$.  We chose $\alpha = 0.5$; this value can be adjusted to better reflect the relative importance of temperature and precipitation to the environmental suitability of a region.
 
