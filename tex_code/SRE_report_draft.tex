@@ -199,7 +199,6 @@ Environmental data were retrieved from the NOAA FTP service on 30 year normals o
 where $min(D_{ij})$ and $min(D_{ij})$ refer to the minimum and maximum valued element in matrix $D$, respectively.  This was performed using both the temperature and precipitation data, and a linear combination of the resulting temperature environmental matrix $E^{T}$ and precipitation environmental matrix $E^{P}$ gives $E = \alpha E^{T} + (1-\alpha) E^{P}$.  We chose $\alpha = 0.5$; this value can be adjusted to better reflect the relative importance of temperature and precipitation to the environmental suitability of a region.
 
 Thus, combining these elements, we have
-
 \[
 	s_{t+1} = (E  \circ P_t) g(s_t).
 \]
@@ -208,30 +207,19 @@ We define $E \circ P_t$ as the Hadamard product, or entry-wise multiplication, o
 
 \subsection*{Data Visualization}
 
-\paragraph*{Overview} 
+Our Commodity Flow Visualization System was developed by Ashish Gauli, Ryan Yan, and Nathan Wikle, participants in the NIMBioS 2015 SRE cohort, working under the direction of Louis Gross and Dan Simberloff.  This product was created in an effort to predict the movement of invasive species through domestic commodity shipping pathways in the United States, however, its applications extend to anyone interested in visualizing the commodity shipping data found in the Freight Analysis Framework (FAF3) database.  The application runs under Shiny Server, a web application framework developed by RStudio, and utilizes R packages related to relational database systems and mapping.
 
-Our Commodity Flow Visualization System was developed by Ashish Gauli, Ryan Yan, and Nathan Wikle, participants in the NIMBioS 2015 SRE cohort, working under the direction of Louis Gross and Dan Simberloff.  This product was created in an effort to predict the movement of invasive species through domestic commodity shipping pathways in the United States, however, its applications extend to anyone interested in visualizing the commodity shipping data found in the Freight Analysis Framework (FAF3) database.  The application runs under Shiny Server, a web application framework developed by RStudio, and utilizes R packages related to relational database systems and mapping. (We might want to list specific packages)  
+The commodity flow data was obtained from the Freight Analysis Framework (FAF3) website, developed by the Office of Freight Management and Operations, a part of the Federal Highway Administration's Office of Operations.  The FAF is a comprehensive source for domestic freight movement, incorporating a variety of data sources into a complex flow network representing 123 regions of the United States.  Four years were selected for our purposes,1997, 2002, 2007, and 2012, each of which contains flow data representing 43 commodity classes and seven modes of transportation.  For more information on the FAF methodology, and to obtain data, please visit \url{http://ops.fhwa.dot.gov/Freight/freight_analysis/faf/index.htm}.
 
-\paragraph*{Data Source}
-
-The commodity flow data was obtained from the Freight Analysis Framework (FAF3) website, developed by the Office of Freight Management and Operations, a part of the Federal Highway Administration's Office of Operations.  The FAF is a comprehensive source for domestic freight movement, incorporating a variety of data sources into a complex flow network representing 123 regions of the United States.  Four years were selected for our purposes,1997, 2002, 2007, and 2012, each of which contains flow data representing 43 commodity classes and seven modes of transportation.  For more information on FAF methodology, and to obtain data, please visit \url{http://ops.fhwa.dot.gov/Freight/freight_analysis/faf/index.htm}.
-
-\paragraph*{Graph Representation}
-
-A political map of the United States is shown, with individual states outlined in grey.  After selecting a state, commodity, mode of transportation, and year, the map will show imports and exports specific to those selections as blue and red lines, respectively, with nodes centered in the geographical center of each state.  The width of the line represents the flow of the selected commodity relative to the total flow of the commodity in the United States (specific equation?).  The size of a node represents the total flow of the commodity within the state, relative to the total flow of the commodity in the United States.
-
-\paragraph*{Server Requirements}
-
-The Shiny Server Application can be downloaded through \url{https://www.rstudio.com/products/shiny/download-server/}.  This link mentions the requirements for Shiny.
-
-\paragraph*{Overview of Search Algorithm}
+Our visualization system features an interactive graphical representation of commodity flow as its centerpiece. Political map of the United States is shown, with individual states outlined in grey.  After selecting a state, commodity, mode of transportation, and year, the map will show imports and exports specific to those selections as blue and red lines, respectively, with nodes centered in the geographical center of each state.  The width of the line represents the flow of the selected commodity relative to the total flow of the commodity in the United States. Similarly, the size of a node represents the total flow of the commodity within the state, relative to the total flow of the commodity in the United States. Widths are calculated as described below,
+\[
+Width = \frac{w_{ij}}{\sum_{i=1}^{m}(\sum_{j=1}^{m}w_{ij})}, 
+\]
+where $w_{ij}$ refers to the kiloton weight of the selected commodity shipped from region $j$ to region $i$.
 
 The User Interface of the FAF Data Visualization System consists of different widgets that allow users to interact with the system. SelectBox allows the users to select year, multiple commodity type, multiple transportation mode, multiple states and flow direction of the commodities.  A leaflet-based map displays the results based on the user selection. Slider allows the users to adjust the width of the lines on the map.  
 
 The Server of the FAFDVS consists of FAF database, geo-location database, reactive expression, R based relational database system, and rendering expressions. The FAF database consists of the around 5 millions instances of data obtained from Freight Analysis Framework with information on origin state, destination, commodity type, mode of transportation and value of shipment. The reactive expression retrieves the user input and returns the dataset corresponding to the user choice. Based on different selection options, the user input is parsed as strings, table or list, which is then used to make query over the FAF database using the relational database system.  For example, if the user selects 1997, Alcoholic Beverage, Truck, Tennessee and Export, the output will be flows in kilotons originating from Tenessese, heading to all destination states. With respect to the origin and destination, the output dataset is connected with a geo-location database which contains the latitude and longitude of each US states.  The rendering expression feeds relevant real time data from the reactive expressions, and draws appropriate polylines on the leaflet map and renders it to the user interface.  
-
-The width of the lines connecting two states in the map is proportional to the weight value of the shipment between those states relative to the total flow of the commodity in United States.  ‚Need Nathan's Input for the formula..
-
 
 \section*{Results}
 
