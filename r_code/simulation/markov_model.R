@@ -100,7 +100,9 @@ runGrowthModel <- function(S_0, N, m1, m2, m3, m4, names = states, out = "state"
         S_n <- P%*%S_n
         
         if(n == 1) {
-            S_n <- S_n * sim[indices,] # unsure what this means
+            # Multiply s_n by env. sim. matrix, only happens once?
+            # Note: this seems wrong. Why don't we do what we do in the paper?
+            S_n <- S_n * sim[indices,]
         }
         
         S_n[indices] <- 1 # set invaded states back to 1
