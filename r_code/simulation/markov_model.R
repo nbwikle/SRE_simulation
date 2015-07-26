@@ -55,7 +55,7 @@ runModel <- function(S_0, N, m1, m2, m3, m4, names = states, out = "state") {
         S_n[indices] <- 1
         
         if(out == "state" || out == "both") {
-            out_state[[n]] <- S_n
+          out_state[[n]] <- S_n
         }
     }
     if(out == "proportion") {
@@ -71,21 +71,22 @@ runModel <- function(S_0, N, m1, m2, m3, m4, names = states, out = "state") {
     out
 }
 
+# A function to the simulation, with an annual logistic growth function included.
 runGrowthModel <- function(S_0, N, m1, m2, m3, m4, names = states, out = "state", r_0) {
-    S_n <- S_0
+  S_n <- S_0 # initialize state vector to s_0
     len = length(names)
-    if(out == "proportion" || out == "both") {
+    if(out == "proportion" || out == "both") { # determines output format
         out_proportions = list(0)
     }
     if(out == "state" || out == "both") {
         out_state = list(0)
     }
     
-    for(n in 1:N) {
-        indices <- which(S_n >= 1)
-        P <- (generateP(m1, m2, m3, m4)$P)
+    for(n in 1:N) {  # run the simulation for N years
+        indices <- which(S_n >= 1) # record indices of invasion
+        P <- (generateP(m1, m2, m3, m4)$P) # generate the transition matrix
         
-        if(out == "proportion" || out == "both") {
+        if(out == "proportion" || out == "both") { #record (normalized) proportions
             proportions = matrix(nrow = len, ncol = len)
             for(j in 1:len) {
                 proportions[, j] <- P[, j]*S_n[j]
@@ -93,18 +94,19 @@ runGrowthModel <- function(S_0, N, m1, m2, m3, m4, names = states, out = "state"
             }
             out_proportions[[n]] <- proportions
         }
-        
+        # logistic growth in each state
         S_n <- (1*S_n) / (S_n + (1 - S_n)*exp(-r_0*n))
+        # multiply transition matrix
         S_n <- P%*%S_n
         
         if(n == 1) {
-            S_n <- S_n * sim[indices,]
+            S_n <- S_n * sim[indices,] # unsure what this means
         }
         
-        S_n[indices] <- 1
+        S_n[indices] <- 1 # set invaded states back to 1
         
         if(out == "state" || out == "both") {
-            out_state[[n]] <- S_n
+            out_state[[n]] <- S_n # record percent invasion (state vector)
         }
     }
     if(out == "proportion") {
@@ -251,3 +253,4 @@ createMaps <- function(init_state, years, simulations, growth = FALSE) {
     filename <- paste(init_state, "maps.pdf", sep = "_")
     many_maps(average_data, filename, initial = FALSE)
 }
+
