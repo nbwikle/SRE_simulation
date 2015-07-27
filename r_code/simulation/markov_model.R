@@ -257,11 +257,17 @@ testRisk <- function(risk_data) {
 
 #Runs simulations for an initial starting state, and then aggregates and creates a time
 #series of choropleth maps for it.
+<<<<<<< Updated upstream
 createMaps <- function(init_state, years, simulations, growth = FALSE, r_0) {
+=======
+createMaps <- function(init_state, years, simulations, growth = FALSE,
+                        plot=c("average","lower","upper","all")) {
+>>>>>>> Stashed changes
     initial <- rep(0, 51)
     index <- which(states == init_state)
     initial[index] <- 1
     
+<<<<<<< Updated upstream
     if(growth == TRUE) {
         state_data <- runMany(initial, simulations, years, w1, w2, w3, w4, 
                               growth = TRUE, r_0 = r_0)
@@ -271,6 +277,11 @@ createMaps <- function(init_state, years, simulations, growth = FALSE, r_0) {
         state_data <- runMany(initial, simulations, years, w1, w2, w3, w4)
         label = ""
     }
+=======
+    state_data <- runMany(initial, simulations, years, w1, w2, w3, w4, growth = growth)
+    
+    
+>>>>>>> Stashed changes
     
     average_data <- average_states(state_data)
     filename <- paste(init_state, info, label, "maps.pdf", sep = "_")
