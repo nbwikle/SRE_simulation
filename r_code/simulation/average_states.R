@@ -4,11 +4,11 @@
 # A function to calculate the average state vectors over many runs of 
 # a simulation.
 # Input: 1) m: a list of state vectors, outputted from runMany()
-#        2) alpha: the apha*100% C.I. value
+#        2) alpha: the (1-alpha)*100% C.I. value, default to 0.05
 # Output: a list, containing the average state vectors for each time step,
 #   the lower limit state vector for an alpha*100% C.I., and the upper limit
-#   state vector for an alpha*100% C.I.
-average_states <- function(m,alpha=0.95){
+#   state vector for a (1-alpha)*100% C.I.
+average_states <- function(m,alpha=0.05){
   runs <- length(m) # number of simulations
   iters <- length(m[[1]]) # number of timesteps per simulation
   sts <- length(m[[1]][[1]]) # number of states
@@ -29,7 +29,7 @@ average_states <- function(m,alpha=0.95){
   names(upper_ci) <- paste("time",iter_ind,sep="") #name vectors by timestep
   
   # create a list, consisting of the average, lower, and upper c.i. state vectors
-  output <- list(average,lower_ci,upper_ci)
+  output <- list(average=avg_states,lower=lower_ci,upper=upper_ci)
   output
 }
 
@@ -66,7 +66,7 @@ one_average <- function(i,r,new){
 #        2) r: a vector of indices indicating the number of simulations
 #        3) lst: the list of ouptup state vectors
 #        4) N: the number of states in the simulation
-#        5) alpha: the alpha*100% C.I. value
+#        5) alpha: the (1-alpha)*100% C.I. value
 # Output: A state vector, the lower limit of the alpha*100% C.I. for each
 #     element of the state vectors
 find_lower_state <- function(t,r,lst,N,alpha){
@@ -83,16 +83,16 @@ find_lower_state <- function(t,r,lst,N,alpha){
 # Input: 1) i: the state vector element index
 #        2) r: a vector of indices indicating the number of simulations
 #        3) new: a list containing a set of state vectors for a specific time
-#        4) alpha: the apha*100% C.I. value
+#        4) alpha: the (1-alpha)*100% C.I. value
 # Output: the lower limit of the alpha*100% C.I. for a given element
 lower_lim <- function(i,r,new,alpha){
   t <- sapply(r,function(x) new[[x]][[1]][i])
   if (length(r) > 1){
     xbar <- mean(t)
     df <- length(r) - 1
-    t_alpha <- qt(alpha,df)
+    t_halfalpha <- qt((1-(alpha/2)),df)
     se <- sd(t)/sqrt(length(t))
-    low.l <- mean - (t_alpha * se)
+    low.l <- xbar - (t_halfalpha * se)
   } else {
     stop("only one simulation")
   }
@@ -105,7 +105,7 @@ lower_lim <- function(i,r,new,alpha){
 #        2) r: a vector of indices indicating the number of simulations
 #        3) lst: the list of ouptup state vectors
 #        4) N: the number of states in the simulation
-#        5) alpha: the alpha*100% C.I. value
+#        5) alpha: the (1-alpha)*100% C.I. value
 # Output: A state vector, the upper limit of the alpha*100% C.I. for each
 #     element of the state vectors
 find_upper_state <- function(t,r,lst,N,alpha){
@@ -122,16 +122,16 @@ find_upper_state <- function(t,r,lst,N,alpha){
 # Input: 1) i: the state vector element index
 #        2) r: a vector of indices indicating the number of simulations
 #        3) new: a list containing a set of state vectors for a specific time
-#        4) alpha: the apha*100% C.I. value
+#        4) alpha: the (1-alpha)*100% C.I. value
 # Output: the upper limit of the alpha*100% C.I. for a given element
 upper_lim <- function(i,r,new,alpha){
   t <- sapply(r,function(x) new[[x]][[1]][i])
   if (length(r) > 1){
     xbar <- mean(t)
     df <- length(r) - 1
-    t_alpha <- qt(alpha,df)
+    t_halfalpha <- qt((1-(alpha/2)),df)
     se <- sd(t)/sqrt(length(t))
-    upper.l <- mean + (t_alpha * se)
+    upper.l <- xbar + (t_halfalpha * se)
   } else {
     stop("only one simulation")
   }
