@@ -75,9 +75,15 @@ runModel <- function(S_0, N, m1, m2, m3, m4, names = states, out = "state") {
 
 # A function to the simulation, with an annual logistic growth function included.
 runGrowthModel <- function(S_0, N, m1, m2, m3, m4, names = states, out = "state", r_0) {
+<<<<<<< HEAD
     require(matrixcalc)
     
     S_n <- S_0 # initialize state vector to s_0
+=======
+  require(matrixcalc)
+  
+  S_n <- S_0 # initialize state vector to s_0
+>>>>>>> 67de7371682615a6ceb1a5604bef4260e1d829e4
     len = length(names)
     original <- which(S_n >= 1)
     
@@ -109,7 +115,11 @@ runGrowthModel <- function(S_0, N, m1, m2, m3, m4, names = states, out = "state"
         #if(n == 1) {
             # Multiply s_n by env. sim. matrix, only happens once?
             # Note: this seems wrong. Why don't we do what we do in the paper?
+<<<<<<< HEAD
             #S_n <- S_n * sim[indices,]
+=======
+            # S_n <- S_n * sim[indices,]
+>>>>>>> 67de7371682615a6ceb1a5604bef4260e1d829e4
         #}
         
         S_n[indices] <- 1 # set invaded states back to 1
