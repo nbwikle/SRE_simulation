@@ -75,15 +75,9 @@ runModel <- function(S_0, N, m1, m2, m3, m4, names = states, out = "state") {
 
 # A function to the simulation, with an annual logistic growth function included.
 runGrowthModel <- function(S_0, N, m1, m2, m3, m4, names = states, out = "state", r_0) {
-<<<<<<< HEAD
     require(matrixcalc)
     
     S_n <- S_0 # initialize state vector to s_0
-=======
-  require(matrixcalc)
-  
-  S_n <- S_0 # initialize state vector to s_0
->>>>>>> 67de7371682615a6ceb1a5604bef4260e1d829e4
     len = length(names)
     original <- which(S_n >= 1)
     
@@ -114,12 +108,7 @@ runGrowthModel <- function(S_0, N, m1, m2, m3, m4, names = states, out = "state"
         
         #if(n == 1) {
             # Multiply s_n by env. sim. matrix, only happens once?
-            # Note: this seems wrong. Why don't we do what we do in the paper?
-<<<<<<< HEAD
-            #S_n <- S_n * sim[indices,]
-=======
             # S_n <- S_n * sim[indices,]
->>>>>>> 67de7371682615a6ceb1a5604bef4260e1d829e4
         #}
         
         S_n[indices] <- 1 # set invaded states back to 1
@@ -257,17 +246,12 @@ testRisk <- function(risk_data) {
 
 #Runs simulations for an initial starting state, and then aggregates and creates a time
 #series of choropleth maps for it.
-<<<<<<< Updated upstream
 createMaps <- function(init_state, years, simulations, growth = FALSE, r_0) {
-=======
-createMaps <- function(init_state, years, simulations, growth = FALSE,
-                        plot=c("average","lower","upper","all")) {
->>>>>>> Stashed changes
+
     initial <- rep(0, 51)
     index <- which(states == init_state)
     initial[index] <- 1
     
-<<<<<<< Updated upstream
     if(growth == TRUE) {
         state_data <- runMany(initial, simulations, years, w1, w2, w3, w4, 
                               growth = TRUE, r_0 = r_0)
@@ -277,11 +261,9 @@ createMaps <- function(init_state, years, simulations, growth = FALSE,
         state_data <- runMany(initial, simulations, years, w1, w2, w3, w4)
         label = ""
     }
-=======
+
     state_data <- runMany(initial, simulations, years, w1, w2, w3, w4, growth = growth)
     
-    
->>>>>>> Stashed changes
     
     average_data <- average_states(state_data)
     filename <- paste(init_state, info, label, "maps.pdf", sep = "_")
