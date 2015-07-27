@@ -73,6 +73,8 @@ runModel <- function(S_0, N, m1, m2, m3, m4, names = states, out = "state") {
 
 # A function to the simulation, with an annual logistic growth function included.
 runGrowthModel <- function(S_0, N, m1, m2, m3, m4, names = states, out = "state", r_0) {
+  require(matrixcalc)
+  
   S_n <- S_0 # initialize state vector to s_0
     len = length(names)
     if(out == "proportion" || out == "both") { # determines output format
@@ -97,13 +99,13 @@ runGrowthModel <- function(S_0, N, m1, m2, m3, m4, names = states, out = "state"
         # logistic growth in each state
         S_n <- (1*S_n) / (S_n + (1 - S_n)*exp(-r_0*n))
         # multiply transition matrix
-        S_n <- P%*%S_n
+        S_n <- hadamard.prod(sim,P)%*%S_n
         
-        if(n == 1) {
+        #if(n == 1) {
             # Multiply s_n by env. sim. matrix, only happens once?
             # Note: this seems wrong. Why don't we do what we do in the paper?
-            S_n <- S_n * sim[indices,]
-        }
+            # S_n <- S_n * sim[indices,]
+        #}
         
         S_n[indices] <- 1 # set invaded states back to 1
         
