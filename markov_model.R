@@ -230,6 +230,7 @@ testRisk <- function(risk_data) {
                          axis.title.y = element_text(size=14, vjust = 1),
                          axis.title.x = element_text(size=14, vjust = 1),
                          plot.title = element_text(size = 16, vjust = 1))
+   
     plot
 }
 
