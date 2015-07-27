@@ -26,6 +26,8 @@ states <- c("Alabama","Alaska","Arizona","Arkansas","California",
 runModel <- function(S_0, N, m1, m2, m3, m4, names = states, out = "state") {
     S_n <- S_0
     len = length(names)
+    original <- which(S_n) >= 1
+    
     if(out == "proportion" || out == "both") {
         out_proportions = list(0)
     }
@@ -73,8 +75,12 @@ runModel <- function(S_0, N, m1, m2, m3, m4, names = states, out = "state") {
 
 # A function to the simulation, with an annual logistic growth function included.
 runGrowthModel <- function(S_0, N, m1, m2, m3, m4, names = states, out = "state", r_0) {
-  S_n <- S_0 # initialize state vector to s_0
+    require(matrixcalc)
+    
+    S_n <- S_0 # initialize state vector to s_0
     len = length(names)
+    original <- which(S_n >= 1)
+    
     if(out == "proportion" || out == "both") { # determines output format
         out_proportions = list(0)
     }
@@ -82,6 +88,7 @@ runGrowthModel <- function(S_0, N, m1, m2, m3, m4, names = states, out = "state"
         out_state = list(0)
     }
     
+  
     for(n in 1:N) {  # run the simulation for N years
         indices <- which(S_n >= 1) # record indices of invasion
         P <- (generateP(m1, m2, m3, m4)$P) # generate the transition matrix
@@ -97,13 +104,13 @@ runGrowthModel <- function(S_0, N, m1, m2, m3, m4, names = states, out = "state"
         # logistic growth in each state
         S_n <- (1*S_n) / (S_n + (1 - S_n)*exp(-r_0*n))
         # multiply transition matrix
-        S_n <- P%*%S_n
+        S_n <- hadamard.prod(sim,P)%*%S_n
         
-        if(n == 1) {
+        #if(n == 1) {
             # Multiply s_n by env. sim. matrix, only happens once?
             # Note: this seems wrong. Why don't we do what we do in the paper?
-            S_n <- S_n * sim[indices,]
-        }
+            #S_n <- S_n * sim[indices,]
+        #}
         
         S_n[indices] <- 1 # set invaded states back to 1
         
@@ -126,12 +133,12 @@ runGrowthModel <- function(S_0, N, m1, m2, m3, m4, names = states, out = "state"
 
 
 runMany <- function(init, times, steps, m1, m2, m3, m4, names = states,
-                    method = "state", growth = TRUE) {
+                    method = "state", growth = TRUE, r_0) {
     out = list(0)
     if(growth == TRUE) {
         for(i in 1:times) {
             out[[i]] <- runGrowthModel(S_0 = init, N = steps, m1 = m1, m2 = m2, m3 = m3, m4 = m4,
-                                       names = names, out = method, r_0 = .01)
+                                       names = names, out = method, r_0 = r_0)
         }
     }
     else {
@@ -240,20 +247,23 @@ testRisk <- function(risk_data) {
 
 #Runs simulations for an initial starting state, and then aggregates and creates a time
 #series of choropleth maps for it.
-createMaps <- function(init_state, years, simulations, growth = FALSE) {
+createMaps <- function(init_state, years, simulations, growth = FALSE, r_0) {
     initial <- rep(0, 51)
     index <- which(states == init_state)
     initial[index] <- 1
     
     if(growth == TRUE) {
-        state_data <- runMany(initial, simulations, years, w1, w2, w3, w4, growth = TRUE)
+        state_data <- runMany(initial, simulations, years, w1, w2, w3, w4, 
+                              growth = TRUE, r_0 = r_0)
+        label = "growth"
     }
     else {
         state_data <- runMany(initial, simulations, years, w1, w2, w3, w4)
+        label = ""
     }
     
     average_data <- average_states(state_data)
-    filename <- paste(init_state, "maps.pdf", sep = "_")
+    filename <- paste(init_state, info, label, "maps.pdf", sep = "_")
     many_maps(average_data, filename, initial = FALSE)
 }
 
