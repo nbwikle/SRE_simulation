@@ -246,27 +246,38 @@ testRisk <- function(risk_data) {
 
 #Runs simulations for an initial starting state, and then aggregates and creates a time
 #series of choropleth maps for it.
-createMaps <- function(init_state, years, simulations, growth = FALSE, r_0) {
+createMaps <- function(init_state, years, simulations, r_0, alpha=0.5, growth = FALSE,
+                        plot=c("average","lower","upper","all")) {
 
     initial <- rep(0, 51)
     index <- which(states == init_state)
     initial[index] <- 1
     
-    if(growth == TRUE) {
-        state_data <- runMany(initial, simulations, years, w1, w2, w3, w4, 
-                              growth = TRUE, r_0 = r_0)
+    state_data <- runMany(initial, simulations, years, w1, w2, w3, w4,
+    growth = growth, r_0 = r_0)
+    
+    if(growth) {
         label = "growth"
     }
     else {
-        state_data <- runMany(initial, simulations, years, w1, w2, w3, w4)
         label = ""
     }
-
-    state_data <- runMany(initial, simulations, years, w1, w2, w3, w4, growth = growth)
+    average <- average_states(state_data,alpha=alpha)
     
-    
-    average_data <- average_states(state_data)
-    filename <- paste(init_state, info, label, "maps.pdf", sep = "_")
-    many_maps(average_data, filename, initial = FALSE)
+    if ((plot=="average") | (plot=="all")){
+      avg <- average$average
+      avg_filename <- paste(init_state,info,label,"average_maps.pdf",sep="_")
+      many_maps(avg, avg_filename, initial = FALSE)
+    } else if ((plot=="lower") | (plot=="all")) {
+      low <- average$lower
+      low_filename <- paste(init_state,info,label,"lowerci_maps.pdf",sep="_")
+      many_maps(low, low_filename, initial = FALSE)
+    } else if ((plot=="upper") | (plot=="all")){
+      upper <- average$upper
+      up_filename <- paste(init_state,info,label,"upperci_maps.pdf",sep="_")
+      many_maps(upper,up_filename,initial=FALSE)
+    } else {
+      stop("invalid plot input")
+    }
 }
 
