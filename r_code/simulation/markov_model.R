@@ -74,7 +74,7 @@ runModel <- function(S_0, N, m1, m2, m3, m4, names = states, out = "state") {
 }
 
 # A function to the simulation, with an annual logistic growth function included.
-runGrowthModel <- function(S_0, N, m1, m2, m3, m4, names = states, out = "state", r_0) {
+runGrowthModel <- function(S_0, N, m1, m2, m3, m4, r_0, names = states, out = "state") {
     require(matrixcalc)
     
     S_n <- S_0 # initialize state vector to s_0
@@ -131,13 +131,13 @@ runGrowthModel <- function(S_0, N, m1, m2, m3, m4, names = states, out = "state"
 }
 
 
-runMany <- function(init, times, steps, m1, m2, m3, m4, names = states,
-                    method = "state", growth = TRUE, r_0) {
+runMany <- function(init, times, steps, m1, m2, m3, m4, r_0,names = states,
+                    method = "state",growth = TRUE) {
     out = list(0)
-    if(growth == TRUE) {
+    if(growth) {
         for(i in 1:times) {
             out[[i]] <- runGrowthModel(S_0 = init, N = steps, m1 = m1, m2 = m2, m3 = m3, m4 = m4,
-                                       names = names, out = method, r_0 = r_0)
+                                       r_0 = r_0, names = names, out = method)
         }
     }
     else {
@@ -246,14 +246,14 @@ testRisk <- function(risk_data) {
 
 #Runs simulations for an initial starting state, and then aggregates and creates a time
 #series of choropleth maps for it.
-createMaps <- function(init_state, years, simulations, r_0, alpha=0.5, growth = FALSE,
-                        plot=c("average","lower","upper","all")) {
+createMaps <- function(init_state, years, simulations, r_0, alpha=0.05, growth = FALSE,
+                         inform = info, plot=c("average","lower","upper","all")) {
 
     initial <- rep(0, 51)
     index <- which(states == init_state)
     initial[index] <- 1
     
-    state_data <- runMany(initial, simulations, years, w1, w2, w3, w4,
+    state_data <<- runMany(init=initial, times=simulations, steps=years, w1, w2, w3, w4,
     growth = growth, r_0 = r_0)
     
     if(growth) {
@@ -265,19 +265,20 @@ createMaps <- function(init_state, years, simulations, r_0, alpha=0.5, growth = 
     average <- average_states(state_data,alpha=alpha)
     
     if ((plot=="average") | (plot=="all")){
-      avg <- average$average
-      avg_filename <- paste(init_state,info,label,"average_maps.pdf",sep="_")
-      many_maps(avg, avg_filename, initial = FALSE)
-    } else if ((plot=="lower") | (plot=="all")) {
-      low <- average$lower
-      low_filename <- paste(init_state,info,label,"lowerci_maps.pdf",sep="_")
-      many_maps(low, low_filename, initial = FALSE)
-    } else if ((plot=="upper") | (plot=="all")){
-      upper <- average$upper
-      up_filename <- paste(init_state,info,label,"upperci_maps.pdf",sep="_")
-      many_maps(upper,up_filename,initial=FALSE)
-    } else {
-      stop("invalid plot input")
+     avg <- average$average
+     avg_filename <- paste(init_state,inform,label,"average_maps.pdf",sep="_")
+     many_maps(avg, avg_filename, initial = FALSE)
     }
+    if ((plot=="lower") | (plot=="all")) {
+     low <- average$lower
+     low_filename <- paste(init_state,inform,label,"lowerci_maps.pdf",sep="_")
+     many_maps(low, low_filename, initial = FALSE)
+    }
+    if ((plot=="upper") | (plot=="all")){
+      upper <- average$upper
+      up_filename <- paste(init_state,inform,label,"upperci_maps.pdf",sep="_")
+      many_maps(upper,up_filename,initial=FALSE)
+    }
+    average
 }
 
