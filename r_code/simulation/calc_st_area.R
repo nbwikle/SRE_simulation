@@ -7,7 +7,7 @@
 #        2) water: a boolean, default to TRUE. Determines whether to include water
 #            in the area calculation
 # Output: a numeric, giving the area in square miles for the input state
-calc_st_area <- function(state,water=TRUE){
+calc_st_area <- function(state,fips=FALSE,water=TRUE){
   require(foreign)
   
   wd <- c("~/SRE_simulation/data")
@@ -18,11 +18,15 @@ calc_st_area <- function(state,water=TRUE){
   ctyArea[,2]<-as.numeric(levels(ctyArea[,2]))[ctyArea[,2]]
   ctyArea[,4]<-as.numeric(levels(ctyArea[,4]))[ctyArea[,4]]
   
-  ind <- which((as.character(stFIPS$State)==state)|
+  if(!fips){
+    ind <- which((as.character(stFIPS$State)==state)|
                  (as.character(stFIPS$ST)==state)|
                  (as.numeric(stFIPS$State)==state))
   
-  st.fips <- stFIPS$STATEFP[ind]
+    st.fips <- stFIPS$STATEFP[ind]
+  } else {
+    st.fips <- state
+  }
   ctys <- ctyArea[which(ctyArea$STATEFP==st.fips),]
   
   area.sq.m <- sum(ctys$ALAND)

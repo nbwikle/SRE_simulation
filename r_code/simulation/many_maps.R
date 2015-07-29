@@ -12,11 +12,13 @@
 #         2) A list of ggplot objects
 many_maps <- function(l,pdfName,w=10.77,h=6.09,initial=TRUE){
   N <- length(l) # number of time steps (+1 if initial step is included)
+  
   if (initial) { # determine appropriate time steps to label
     t <- c(0:(N-1)) # vector consisting of number of plots to generate
   } else {
     t <- c(1:N)
   }
+  
   # generate the ggplots, using make_map helper function (and choro_map)
   p <- lapply(t,function(x) make_map(l,x,initial))
   # print to pdf
