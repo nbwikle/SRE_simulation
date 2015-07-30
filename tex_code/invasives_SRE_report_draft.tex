@@ -198,7 +198,7 @@ Environmental data were retrieved from the NOAA FTP service on 30 year normals o
 \[
    E_{ij} = \frac{D_{ij} - min\left(D_{ij}\right)}{max\left(D_{ij}\right) - min\left(D_{ij}\right)},
 \]
-where $min(D_{ij})$ and $min(D_{ij})$ refer to the minimum and maximum valued element in matrix $\boldsymbol{D}$, respectively.  This was performed using both the temperature and precipitation data, and a linear combination of the resulting temperature environmental matrix $E^{T}$ and precipitation environmental matrix $E^{P}$ gives $E = \alpha E^{T} + (1-\alpha) E^{P}$.  We chose $\alpha = 0.5$, however this value can be adjusted to better reflect the relative importance of temperature and precipitation to the environmental suitability of a region.
+where $min(D_{ij})$ and $max(D_{ij})$ refer to the minimum and maximum valued element in matrix $\boldsymbol{D}$, respectively.  This was performed using both the temperature and precipitation data, and a linear combination of the resulting temperature environmental matrix $E^{T}$ and precipitation environmental matrix $E^{P}$ gives $E = \alpha E^{T} + (1-\alpha) E^{P}$.  We chose $\alpha = 0.5$, however this value can be adjusted to better reflect the relative importance of temperature and precipitation to the environmental suitability of a region.
 
 Thus, combining these elements, we have
 \[
