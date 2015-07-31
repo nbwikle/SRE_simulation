@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2012.6.30)  30 JUL 2015 15:35
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012) (format=pdflatex 2012.6.30)  30 JUL 2015 21:16
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -355,6 +355,8 @@ Overfull \hbox (11.02744pt too wide) in paragraph at lines 129--129
 
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 131.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <12> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 132.
 [1
 
 {/usr/local/texlive/2012/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
@@ -365,130 +367,125 @@ LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <17.28> not available
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <14.4> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 164.
  [5] [6] [7] [8] [9]
-LaTeX Font Info:    Try loading font information for OT1+pcr on input line 216.
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 214.
 
 
 (/usr/local/texlive/2012/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 ) [10] [11]
-Overfull \hbox (0.60536pt too wide) in paragraph at lines 235--236
-\OT1/ptm/m/n/12 com-mod-ity flow vi-su-al-iza-tion sys-tem al-lows users to se-
-lect ori-gins and des-ti-na-tions within
+Overfull \hbox (10.63043pt too wide) in paragraph at lines 233--234
+\OT1/pcr/m/n/12 rweb . nimbios . org : 3838 / sreuser / faf-[]data-[]visualizat
+ion-[]system/$[]\OT1/ptm/m/n/12 .
  []
 
-[12] [13] [14] [15] (./invasives_SRE_report_draft.bbl [16]
-Underfull \hbox (badness 10000) in paragraph at lines 98--102
+[12] [13] [14] [15] (./invasives_SRE_report_draft.bbl [16] [17]
+Underfull \hbox (badness 10000) in paragraph at lines 104--108
 \OT1/pcr/m/n/12 land-[]based-[]station-[]data / land-[]based-[]datasets / clima
 te-[]normals /
  []
 
-[17]
-Underfull \hbox (badness 1067) in paragraph at lines 128--133
+
+Underfull \hbox (badness 1067) in paragraph at lines 140--145
 []\OT1/ptm/m/n/12 Aruna Sivaku-mar and Chan-dra Bhat.  Frac-tional split-distri
 bution model for statewide
  []
 
-[18]) <length_plot.pdf, id=221, 303.1325pt x 151.56625pt>
+[18]) <length_plot.pdf, id=232, 303.1325pt x 151.56625pt>
 File: length_plot.pdf Graphic file (type pdf)
 
 <use length_plot.pdf>
-Package pdftex.def Info: length_plot.pdf used on input line 278.
+Package pdftex.def Info: length_plot.pdf used on input line 277.
 (pdftex.def)             Requested size: 341.43306pt x 170.71974pt.
- <degree_dist.pdf, id=222, 303.1325pt x 151.56625pt>
+ <degree_dist.pdf, id=233, 303.1325pt x 151.56625pt>
 File: degree_dist.pdf Graphic file (type pdf)
 
 <use degree_dist.pdf>
-Package pdftex.def Info: degree_dist.pdf used on input line 288.
+Package pdftex.def Info: degree_dist.pdf used on input line 287.
 (pdftex.def)             Requested size: 227.62204pt x 113.81316pt.
- <strength_dist.pdf, id=223, 303.1325pt x 151.56625pt>
+ <strength_dist.pdf, id=234, 303.1325pt x 151.56625pt>
 File: strength_dist.pdf Graphic file (type pdf)
 
 <use strength_dist.pdf>
-Package pdftex.def Info: strength_dist.pdf used on input line 295.
+Package pdftex.def Info: strength_dist.pdf used on input line 294.
 (pdftex.def)             Requested size: 227.62204pt x 113.81316pt.
- <weight_dist.pdf, id=224, 303.1325pt x 151.56625pt>
+ <weight_dist.pdf, id=235, 303.1325pt x 151.56625pt>
 File: weight_dist.pdf Graphic file (type pdf)
 
 <use weight_dist.pdf>
-Package pdftex.def Info: weight_dist.pdf used on input line 302.
+Package pdftex.def Info: weight_dist.pdf used on input line 301.
 (pdftex.def)             Requested size: 227.62204pt x 113.81316pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<agprod.png, id=225, 490.83376pt x 340.27126pt>
+<agprod.png, id=236, 490.83376pt x 340.27126pt>
 File: agprod.png Graphic file (type png)
  <use agprod.png>
-Package pdftex.def Info: agprod.png used on input line 315.
+Package pdftex.def Info: agprod.png used on input line 314.
 (pdftex.def)             Requested size: 490.83255pt x 340.27042pt.
 
-Overfull \hbox (35.58847pt too wide) in paragraph at lines 315--316
+Overfull \hbox (35.58847pt too wide) in paragraph at lines 314--315
  [][] 
  []
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<riskcurve.png, id=226, 490.83376pt x 340.27126pt>
+<riskcurve.png, id=237, 490.83376pt x 340.27126pt>
 File: riskcurve.png Graphic file (type png)
  <use riskcurve.png>
-Package pdftex.def Info: riskcurve.png used on input line 322.
+Package pdftex.def Info: riskcurve.png used on input line 321.
 (pdftex.def)             Requested size: 490.83255pt x 340.27042pt.
 
-Overfull \hbox (35.58847pt too wide) in paragraph at lines 322--323
+Overfull \hbox (35.58847pt too wide) in paragraph at lines 321--322
  [] 
  []
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 330.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 329.
 [19 <./length_plot.pdf>] [20 <./degree_dist.pdf> <./strength_dist.pdf> <./weigh
 t_dist.pdf>] [21 <./agprod.png>] [22 <./riskcurve.png>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 330.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 329.
 
 (./invasives_SRE_report_draft.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 330.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 330.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 329.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 329.
 Package rerunfilecheck Info: File `invasives_SRE_report_draft.out' has not chan
 ged.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 330.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 329.
  ) 
 Here is how much of TeX's memory you used:
  7249 strings out of 493488
- 108397 string characters out of 3141326
- 196670 words of memory out of 3000000
- 10410 multiletter control sequences out of 15000+200000
- 26247 words of font info for 63 fonts, out of 3000000 for 9000
+ 108406 string characters out of 3141326
+ 196782 words of memory out of 3000000
+ 10411 multiletter control sequences out of 15000+200000
+ 26343 words of font info for 60 fonts, out of 3000000 for 9000
  957 hyphenation exceptions out of 8191
- 36i,9n,38p,1723b,494s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 36i,9n,38p,1804b,494s stack positions out of 5000i,500n,10000p,200000b,50000s
 {/usr/local/texlive/2012/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
-exlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></usr/local/tex
-live/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texl
-ive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texli
-ve/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texliv
-e/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/
-2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/20
-12/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb></usr/local/texlive/20
-12/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib6.pfb></usr/local/texliv
-e/2012/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib8.pfb></usr/local/te
-xlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texl
-ive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texliv
-e/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2
-012/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/20
-12/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2012/texmf
--dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2012/texmf-dist/font
-s/type1/urw/times/utmr8a.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/ur
-w/times/utmri8a.pfb>
-Output written on invasives_SRE_report_draft.pdf (22 pages, 239112 bytes).
+exlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/te
+xlive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></usr/local/texl
+ive/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texli
+ve/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texliv
+e/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/local/texlive
+/2012/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/2
+012/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/201
+2/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2012/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2012/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2012/texmf
+-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2012/texmf-
+dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2012/texmf-dist/fon
+ts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/u
+rw/times/utmbi8a.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/urw/times/
+utmr8a.pfb></usr/local/texlive/2012/texmf-dist/fonts/type1/urw/times/utmri8a.pf
+b>
+Output written on invasives_SRE_report_draft.pdf (22 pages, 234134 bytes).
 PDF statistics:
- 347 PDF objects out of 1000 (max. 8388607)
- 291 compressed objects within 3 object streams
- 67 named destinations out of 1000 (max. 500000)
+ 355 PDF objects out of 1000 (max. 8388607)
+ 300 compressed objects within 3 object streams
+ 69 named destinations out of 1000 (max. 500000)
  31 words of extra memory for PDF output out of 10000 (max. 10000000)
 

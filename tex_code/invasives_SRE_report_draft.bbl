@@ -1,4 +1,4 @@
-\begin{thebibliography}{23}
+\begin{thebibliography}{25}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -21,6 +21,12 @@ Alain Barrat, Allesandro Barthelemy, and Alessandro Vespignani.
 Transportation~Research Board.
 \newblock \emph{NCHRP Report 606: Forecasting Statewide Freight Toolkit}.
 \newblock National Cooperative Highway Research Program, 2008.
+
+\bibitem[Chang et~al.(2015)Chang, Cheng, Allaire, Xie, and McPherson]{Shiny}
+Winston Chang, Joe Cheng, JJ~Allaire, Yihui Xie, and Jonathan McPherson.
+\newblock \emph{shiny: Web Application Framework for R}, 2015.
+\newblock URL \url{http://CRAN.R-project.org/package=shiny}.
+\newblock R package version 0.12.1.
 
 \bibitem[Chow et~al.(2010)Chow, Yang, and Regan]{Chow2010}
 Joseph Y.~J. Chow, Choon~Heon Yang, and Amelia~C. Regan.
@@ -111,6 +117,12 @@ Romualdo Pastor-Satorras and Alessandro Vespignani.
 \newblock Epidemic spreading in scale-free networks.
 \newblock \emph{Phys. Rev. Lett.}, 86\penalty0 (14):\penalty0 3200--3203, Apr
   2001.
+
+\bibitem[{RStudio Team}(2012)]{Rstudio}
+{RStudio Team}.
+\newblock \emph{RStudio: Integrated Development Environment for R}.
+\newblock RStudio, Inc., Boston, MA, 2012.
+\newblock URL \url{http://www.rstudio.com/}.
 
 \bibitem[Ruiz et~al.(2000)Ruiz, Rawlings, Dobbs, Drake, Mullady, Huq, and
   Colwell]{Ruiz2000}
