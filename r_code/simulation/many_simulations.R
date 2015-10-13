@@ -1,6 +1,7 @@
 # many_simulations.R
 # created by: Nathan Wikle, 30 June 2015
 # last edited: 30 June 2015
+# Update 10/10/15: THIS IS FOR AN OLD MODEL IMPLEMENTATION USING COIN FLIPS
 
 # a function to perform many simulations, with statistical output
 # included.

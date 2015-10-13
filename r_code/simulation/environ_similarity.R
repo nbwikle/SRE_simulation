@@ -9,14 +9,12 @@
 #This is done so when P is multiplied by the similarity matrix, it doesn't not affect
 #the overall growth of the infection but only it's distribution (approximately)
 
-
 library(sqldf)
-library(data.table)
 
 #Reads in monthly normals of abiotic parameter data. 
 #temp_table has temperature information, and precip_table has precipitation information
 
-state_file <- "states.csv"
+state_file <- "./data/states.csv"
 temp_url <- "ftp://ftp.ncdc.noaa.gov/pub/data/normals/1981-2010/products/temperature/mly-tavg-normal.txt"
 precip_url <- "ftp://ftp.ncdc.noaa.gov/pub/data/normals/1981-2010/products/precipitation/mly-prcp-normal.txt"
 stations_url <- "ftp://ftp.ncdc.noaa.gov/pub/data/normals/1981-2010/station-inventories/prcp-inventory.txt"
@@ -51,7 +49,7 @@ for(i in 1:dim(temp_table)[1]) {
 precip_table[is.na(precip_table)] <- 0
 temp_table[is.na(temp_table)] <- 0
 
-#Sort stations into states
+#Sort stations by state abberviation
 precip_table <- sqldf("select Station, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep,
                       Oct, Nov, Dec, V5 from precip_table join station_table on 
                       station_table.V1 = precip_table.Station")
@@ -84,7 +82,7 @@ names(average_precip) <- c("State", "Jan", "Feb", "Mar", "Apr", "May", "Jun",
 dc_data <- (average_precip[46, -1] + average_precip[20, -1] + average_precip[8, -1]) / 3
 rownames(dc_data) <- NULL
 dc_row <- data.frame(State = "Washington DC", dc_data, stringsAsFactors = FALSE)
-average_precip <- rbind(average_precip[1:47, ], dc_row, average_precip[48:50, ])
+average_precip <- rbind(average_precip[1:8, ], dc_row, average_precip[9:50, ])
 rownames(average_precip) <- NULL
 
 precip_dist <- as.matrix(dist(average_precip[,2:13]), dimnames = list(average_precip$State, 
@@ -99,7 +97,7 @@ names(average_temp) <- c("State", "Jan", "Feb", "Mar", "Apr", "May", "Jun",
 
 dc_data2 <- (average_temp[46, -1] + average_temp[20, -1] + average_temp[8, -1]) / 3
 dc_row2 <- data.frame(State = "Washington DC", dc_data2, stringsAsFactors = FALSE)
-average_temp <- rbind(average_temp[1:47, ], dc_row, average_temp[48:50, ])
+average_temp <- rbind(average_temp[1:8, ], dc_row, average_temp[9:50, ])
 rownames(average_temp) <- NULL
 
 temp_dist <- as.matrix(dist(average_temp[,2:13]), dimnames = list(average_temp$State, 

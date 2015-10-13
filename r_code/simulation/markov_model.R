@@ -74,10 +74,11 @@ runModel <- function(S_0, N, m1, m2, m3, m4, names = states, out = "state") {
 }
 
 # A function to the simulation, with an annual logistic growth function included.
-runGrowthModel <- function(S_0, N, m1, m2, m3, m4, r_0, names = states, out = "state") {
+runGrowthModel <- function(S_0, N, m1, m2, m3, m4, names = states, out = "state", r_0) {
     require(matrixcalc)
     
     S_n <- S_0 # initialize state vector to s_0
+
     len = length(names)
     original <- which(S_n >= 1)
     
@@ -86,6 +87,7 @@ runGrowthModel <- function(S_0, N, m1, m2, m3, m4, r_0, names = states, out = "s
     }
     if(out == "state" || out == "both") {
         out_state = list(0)
+        out_state[[1]] <- S_n
     }
     
   
@@ -102,19 +104,16 @@ runGrowthModel <- function(S_0, N, m1, m2, m3, m4, r_0, names = states, out = "s
             out_proportions[[n]] <- proportions
         }
         # logistic growth in each state
-        S_n <- (1*S_n) / (S_n + (1 - S_n)*exp(-r_0*n))
+        if(r_0 != 0) {
+            S_n <- (1*S_n) / (S_n + (1 - S_n)*exp(-r_0*n))
+        }
+        
         # multiply transition matrix
-        S_n <- hadamard.prod(sim,P)%*%S_n
-        
-        #if(n == 1) {
-            # Multiply s_n by env. sim. matrix, only happens once?
-            # S_n <- S_n * sim[indices,]
-        #}
-        
+        S_n <- hadamard.prod(sim,P)%*%S_n        
         S_n[indices] <- 1 # set invaded states back to 1
         
         if(out == "state" || out == "both") {
-            out_state[[n]] <- S_n # record percent invasion (state vector)
+            out_state[[n+1]] <- S_n # record percent invasion (state vector)
         }
     }
     if(out == "proportion") {
@@ -126,28 +125,20 @@ runGrowthModel <- function(S_0, N, m1, m2, m3, m4, r_0, names = states, out = "s
     else if(out == "both") {
         out = list(proportions = out_proportions, state = out_state)
     }
-    
     out
 }
 
 
-runMany <- function(init, times, steps, m1, m2, m3, m4, r_0,names = states,
-                    method = "state",growth = TRUE) {
+runMany <- function(init, times, steps, m1, m2, m3, m4, names = states,
+                    method = "state", r_0) {
     out = list(0)
-    if(growth) {
-        for(i in 1:times) {
-            out[[i]] <- runGrowthModel(S_0 = init, N = steps, m1 = m1, m2 = m2, m3 = m3, m4 = m4,
-                                       r_0 = r_0, names = names, out = method)
+    for(i in 1:times) {
+        out[[i]] <- runGrowthModel(S_0 = init, N = steps, m1 = m1, m2 = m2, m3 = m3, m4 = m4,
+                                   names = names, out = method, r_0 = r_0)
         }
-    }
-    else {
-        for(i in 1:times) {
-            out[[i]] <- runModel(S_0 = init, N = steps, m1 = m1, m2 = m2, m3 = m3, m4 = m4,
-                                 names = names, out = method)
-        }
-    }
     out
 }
+
 
 generateStats <- function(out) {
     len <- dim(out[[1]])[1]
@@ -157,6 +148,7 @@ generateStats <- function(out) {
     }
     total
 }
+
 
 generateRisk <- function(data, state, levels = c(0.1, 0.2, 0.5)) {
     
@@ -194,13 +186,13 @@ generateRisk <- function(data, state, levels = c(0.1, 0.2, 0.5)) {
 #Uses runMany() to run many simulations given an initial state and standard parameters, for 
 #"times" number of runes, for "steps" time steps in each run, using the accepted data.
 plotRisk <- function(init_state, target_state, times, steps,
-                     growth = TRUE, levels = c(0.1, 0.2, 0.5)) {
+                     levels = c(0.1, 0.2, 0.5), r_0) {
     
     initial <- rep(0, 51)
     index <- which(states == init_state)
     initial[index] <- 1                       #Creates the initial state vector
     
-    state_data <- runMany(initial, times, steps, w1, w2, w3, w4)
+    state_data <- runMany(initial, times, steps, w1, w2, w3, w4, r_0 = r_0)
     risk_data <- generateRisk(state_data, target_state, levels)
     
     levels = length(risk_data)
@@ -222,63 +214,26 @@ plotRisk <- function(init_state, target_state, times, steps,
     plot
 }
 
-#Used to test aesthetics of graphics.
-testRisk <- function(risk_data) {
-    levels = length(risk_data)
-    df <- do.call("rbind", risk_data)
-    state = levels(df$state)
-    title <- paste("Invasion Risk Over Time for", state)
-    plot <- ggplot(df, aes(time, probability, col = Level))
-    plot <- plot + geom_point() + geom_line() + ggtitle(title)
-    plot <- plot + xlab("Years") + ylab("Probability[Establishment > Level]")
-    plot <- plot + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-                         panel.background = element_blank(), legend.background = element_blank(), 
-                         axis.line.x = element_line(colour = "black"), 
-                         axis.line = element_line(colour = "black"),
-                         axis.text.y = element_text(size=10),
-                         axis.text.x = element_text(size=10),
-                         axis.title.y = element_text(size=14, vjust = 1),
-                         axis.title.x = element_text(size=14, vjust = 1),
-                         plot.title = element_text(size = 16, vjust = 1))
-   
-    plot
-}
-
 #Runs simulations for an initial starting state, and then aggregates and creates a time
 #series of choropleth maps for it.
-createMaps <- function(init_state, years, simulations, r_0, alpha=0.05, growth = FALSE,
-                         inform = info, plot=c("average","lower","upper","all")) {
-
+createMaps <- function(init_state, years, simulations, environ = FALSE, r_0, out 
+                       = "plot") {
     initial <- rep(0, 51)
     index <- which(states == init_state)
     initial[index] <- 1
     
-    state_data <<- runMany(init=initial, times=simulations, steps=years, w1, w2, w3, w4,
-    growth = growth, r_0 = r_0)
+    state_data <- runMany(initial, simulations, years, w1, w2, w3, w4, r_0 = r_0)
+    label = as.character(r_0)
+
+    average_data <- average_states(state_data)
     
-    if(growth) {
-        label = "growth"
+    if(out == "plot") {
+        filename <- paste(init_state, info, label, "maps.pdf", sep = "_")
+        many_maps(average_data[[1]], filename, initial = FALSE)
     }
-    else {
-        label = ""
-    }
-    average <- average_states(state_data,alpha=alpha)
     
-    if ((plot=="average") | (plot=="all")){
-     avg <- average$average
-     avg_filename <- paste(init_state,inform,label,"average_maps.pdf",sep="_")
-     many_maps(avg, avg_filename, initial = FALSE)
+    else if(out == "vector") {
+        average_data
     }
-    if ((plot=="lower") | (plot=="all")) {
-     low <- average$lower
-     low_filename <- paste(init_state,inform,label,"lowerci_maps.pdf",sep="_")
-     many_maps(low, low_filename, initial = FALSE)
-    }
-    if ((plot=="upper") | (plot=="all")){
-      upper <- average$upper
-      up_filename <- paste(init_state,inform,label,"upperci_maps.pdf",sep="_")
-      many_maps(upper,up_filename,initial=FALSE)
-    }
-    average
 }
 

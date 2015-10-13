@@ -43,7 +43,7 @@ make_map <- function(l,t,initial){
   } else {
     v<-l[[t]]
   }
-  title <- paste("Year:",t) # generate the title
+  title <- paste("Year:",t - 1) # generate the title
   g<-choro_map(v,title) # generate choropleth map
   g # output ggplot object
 }
