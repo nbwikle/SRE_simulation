@@ -40,8 +40,8 @@ mintemp_table <- rename(mintemp_table)
 
 #Sanitize data set. Gets rid of irrelevant notation and NAs.
 sanitize <- function(table) {
-    table <- na.omit(data.frame(Station = precip_table$Station, 
-                        as.data.frame(lapply(precip_table[,2:13], FUN = function(x) gsub("[^0-9]", "", x)))))
+    table <- na.omit(data.frame(Station = table$Station, 
+                        as.data.frame(lapply(table[,2:13], FUN = function(x) gsub("[^0-9]", "", x)))))
     
 }
 precip_table <- sanitize(precip_table)
@@ -119,10 +119,91 @@ addPresence <- function(table, species) {
 }
 
 createRegModel <- function(species) {
-    precip_table <<- addPresence(precip_table, species)
-    temp_table <<- addPresence(temp_table, species)
-    maxtemp_table <<- addPresence(maxtemp_table, species)
-    mintemp_table <<- addPresence(mintemp_table, species)
+    precip_table <- addPresence(precip_table, species)
+    temp_table <- addPresence(temp_table, species)
+    maxtemp_table <- addPresence(maxtemp_table, species)
+    mintemp_table <- addPresence(mintemp_table, species)
+    
+    precip_table <<- transform(precip_table, 
+                               Jan=as.numeric(Jan),
+                               Feb=as.numeric(Feb),
+                               Mar=as.numeric(Mar),
+                               Apr=as.numeric(Apr),
+                               May=as.numeric(May),
+                               Jun=as.numeric(Jun),
+                               Jul=as.numeric(Jul),
+                               Aug=as.numeric(Aug),
+                               Sep=as.numeric(Sep),
+                               Oct=as.numeric(Oct),
+                               Nov=as.numeric(Nov),
+                               Dec=as.numeric(Dec))
+    temp_table <<- transform(temp_table, 
+                               Jan=as.numeric(Jan),
+                               Feb=as.numeric(Feb),
+                               Mar=as.numeric(Mar),
+                               Apr=as.numeric(Apr),
+                               May=as.numeric(May),
+                               Jun=as.numeric(Jun),
+                               Jul=as.numeric(Jul),
+                               Aug=as.numeric(Aug),
+                               Sep=as.numeric(Sep),
+                               Oct=as.numeric(Oct),
+                               Nov=as.numeric(Nov),
+                               Dec=as.numeric(Dec))
+    maxtemp_table <<- transform(maxtemp_table, 
+                             Jan=as.numeric(Jan),
+                             Feb=as.numeric(Feb),
+                             Mar=as.numeric(Mar),
+                             Apr=as.numeric(Apr),
+                             May=as.numeric(May),
+                             Jun=as.numeric(Jun),
+                             Jul=as.numeric(Jul),
+                             Aug=as.numeric(Aug),
+                             Sep=as.numeric(Sep),
+                             Oct=as.numeric(Oct),
+                             Nov=as.numeric(Nov),
+                             Dec=as.numeric(Dec))
+    mintemp_table <<- transform(mintemp_table, 
+                             Jan=as.numeric(Jan),
+                             Feb=as.numeric(Feb),
+                             Mar=as.numeric(Mar),
+                             Apr=as.numeric(Apr),
+                             May=as.numeric(May),
+                             Jun=as.numeric(Jun),
+                             Jul=as.numeric(Jul),
+                             Aug=as.numeric(Aug),
+                             Sep=as.numeric(Sep),
+                             Oct=as.numeric(Oct),
+                             Nov=as.numeric(Nov),
+                             Dec=as.numeric(Dec))
+    
+    names(precip_table)[2:13] <- c("precipJan","precipFeb","precipMar","precipApr","precipMay",
+    "precipJun","precipJul","precipAug","precipSep","precipOct",
+    "precipNov","precipDec")
+    names(temp_table)[2:13] <- c("tempJan","tempFeb","tempMar","tempApr","tempMay",
+    "tempJun","tempJul","tempAug","tempSep","tempOct",
+    "tempNov","tempDec")
+    names(maxtemp_table)[2:13] <- c("maxtempJan","maxtempFeb","maxtempMar","maxtempApr","maxtempMay",
+    "maxtempJun","maxtempJul","maxtempAug","maxtempSep","maxtempOct",
+    "maxtempNov","maxtempDec")
+    names(mintemp_table)[2:13] <- c("mintempJan","mintempFeb","mintempMar","mintempApr","mintempMay",
+    "mintempJun","mintempJul","mintempAug","mintempSep","mintempOct",
+    "mintempNov","mintempDec")
+    
+    comb1_table <- merge(x=precip_table,y=temp_table,by=c("Station","Zip","fips","Presence"))
+    comb2_table <- merge(x=maxtemp_table,y=mintemp_table,by=c("Station","Zip","fips","Presence"))
+    comball_table <- merge(x=comb1_table,y=comb2_table,by=c("Station","Zip","fips","Presence"))
+    set.seed(27)
+    training <- comball_table[sample(1:nrow(comball_table),replace=T,size=nrow(comball_table)/2),]
+    training$Presence <- as.factor(training$Presence)
+    training <- training[,-c(1:3)]
+    test <- comball_table[,-c(1:4)]
+    
+    
+    log_reg <- glm(Presence~.,data=training,family=binomial())
+    predictions <- predict(log_reg,test,type="response")
+    
+    output <- data.frame(comball_table,predictions)
 }
 
 createRegModel("beech_bark_disease")
