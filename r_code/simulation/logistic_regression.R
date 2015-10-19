@@ -118,13 +118,20 @@ addPresence <- function(table, species) {
     table
 }
 
-createRegModel <- function(species) {
-    precip_table <- addPresence(precip_table, species)
-    temp_table <- addPresence(temp_table, species)
-    maxtemp_table <- addPresence(maxtemp_table, species)
-    mintemp_table <- addPresence(mintemp_table, species)
+ptable <- precip_table
+ttable <- temp_table
+maxtable <- maxtemp_table
+mintable <- mintemp_table
+
+species <- "mexican_bean"
+
+createRegModel <- function(species,ptable,ttable,maxtable,mintable) {
+    p_table <- addPresence(ptable, species)
+    t_table <- addPresence(ttable, species)
+    max_table <- addPresence(maxtable, species)
+    min_table <- addPresence(mintable, species)
     
-    precip_table <<- transform(precip_table, 
+    p_table <<- transform(p_table, 
                                Jan=as.numeric(Jan),
                                Feb=as.numeric(Feb),
                                Mar=as.numeric(Mar),
@@ -137,7 +144,7 @@ createRegModel <- function(species) {
                                Oct=as.numeric(Oct),
                                Nov=as.numeric(Nov),
                                Dec=as.numeric(Dec))
-    temp_table <<- transform(temp_table, 
+    t_table <<- transform(t_table, 
                                Jan=as.numeric(Jan),
                                Feb=as.numeric(Feb),
                                Mar=as.numeric(Mar),
@@ -150,7 +157,7 @@ createRegModel <- function(species) {
                                Oct=as.numeric(Oct),
                                Nov=as.numeric(Nov),
                                Dec=as.numeric(Dec))
-    maxtemp_table <<- transform(maxtemp_table, 
+    max_table <<- transform(max_table, 
                              Jan=as.numeric(Jan),
                              Feb=as.numeric(Feb),
                              Mar=as.numeric(Mar),
@@ -163,7 +170,7 @@ createRegModel <- function(species) {
                              Oct=as.numeric(Oct),
                              Nov=as.numeric(Nov),
                              Dec=as.numeric(Dec))
-    mintemp_table <<- transform(mintemp_table, 
+    min_table <<- transform(min_table, 
                              Jan=as.numeric(Jan),
                              Feb=as.numeric(Feb),
                              Mar=as.numeric(Mar),
@@ -177,23 +184,23 @@ createRegModel <- function(species) {
                              Nov=as.numeric(Nov),
                              Dec=as.numeric(Dec))
     
-    names(precip_table)[2:13] <- c("precipJan","precipFeb","precipMar","precipApr","precipMay",
+    names(p_table)[2:13] <- c("precipJan","precipFeb","precipMar","precipApr","precipMay",
     "precipJun","precipJul","precipAug","precipSep","precipOct",
     "precipNov","precipDec")
-    names(temp_table)[2:13] <- c("tempJan","tempFeb","tempMar","tempApr","tempMay",
+    names(t_table)[2:13] <- c("tempJan","tempFeb","tempMar","tempApr","tempMay",
     "tempJun","tempJul","tempAug","tempSep","tempOct",
     "tempNov","tempDec")
-    names(maxtemp_table)[2:13] <- c("maxtempJan","maxtempFeb","maxtempMar","maxtempApr","maxtempMay",
+    names(max_table)[2:13] <- c("maxtempJan","maxtempFeb","maxtempMar","maxtempApr","maxtempMay",
     "maxtempJun","maxtempJul","maxtempAug","maxtempSep","maxtempOct",
     "maxtempNov","maxtempDec")
-    names(mintemp_table)[2:13] <- c("mintempJan","mintempFeb","mintempMar","mintempApr","mintempMay",
+    names(min_table)[2:13] <- c("mintempJan","mintempFeb","mintempMar","mintempApr","mintempMay",
     "mintempJun","mintempJul","mintempAug","mintempSep","mintempOct",
     "mintempNov","mintempDec")
     
-    comb1_table <- merge(x=precip_table,y=temp_table,by=c("Station","Zip","fips","Presence"))
-    comb2_table <- merge(x=maxtemp_table,y=mintemp_table,by=c("Station","Zip","fips","Presence"))
+    comb1_table <- merge(x=p_table,y=t_table,by=c("Station","Zip","fips","Presence"))
+    comb2_table <- merge(x=max_table,y=min_table,by=c("Station","Zip","fips","Presence"))
     comball_table <- merge(x=comb1_table,y=comb2_table,by=c("Station","Zip","fips","Presence"))
-    set.seed(27)
+    set.seed(30)
     training <- comball_table[sample(1:nrow(comball_table),replace=T,size=nrow(comball_table)/2),]
     training$Presence <- as.factor(training$Presence)
     training <- training[,-c(1:3)]
@@ -204,6 +211,19 @@ createRegModel <- function(species) {
     predictions <- predict(log_reg,test,type="response")
     
     output <- data.frame(comball_table,predictions)
+    output
 }
 
-createRegModel("beech_bark_disease")
+saveRDS(bbd_fips_predictions,file="bbd_fips_predictions.rds")
+saveRDS(clb_fips_predictions,file="clb_fips_predictions.rds")
+saveRDS(eab_fips_predictions,file="eab_fips_predictions.rds")
+saveRDS(ecb_fips_predictions,file="ecb_fips_predictions.rds")
+saveRDS(gm_fips_predictions,file="gm_fips_predictions.rds")
+saveRDS(hwa_fips_predictions,file="hwa_fips_predictions.rds")
+saveRDS(jb_fips_predictions,file="jb_fips_predictions.rds")
+saveRDS(mb_fips_predictions,file="mc_fips_predictions.rds")
+
+
+
+
+createRegModel("beech_bark_disease",precip_table,temp_table,maxtemp_table,mintemp_table)
