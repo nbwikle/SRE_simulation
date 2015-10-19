@@ -221,9 +221,59 @@ saveRDS(ecb_fips_predictions,file="ecb_fips_predictions.rds")
 saveRDS(gm_fips_predictions,file="gm_fips_predictions.rds")
 saveRDS(hwa_fips_predictions,file="hwa_fips_predictions.rds")
 saveRDS(jb_fips_predictions,file="jb_fips_predictions.rds")
-saveRDS(mb_fips_predictions,file="mc_fips_predictions.rds")
+saveRDS(mc_fips_predictions,file="mc_fips_predictions.rds")
 
+by_state_fips <- function(input){
+  numbers <- input$fips
+  numbers <- as.numeric(numbers)
+  myMatrix<-matrix((rep(numbers,each=5) %/% 10^(4:0))%%10,ncol=5,byrow=TRUE)
+  stfips <- as.numeric(paste(myMatrix[,1],myMatrix[,2],sep=""))
+  ctyfips <- as.numeric(paste(myMatrix[,3],myMatrix[,4],myMatrix[,5],sep=""))
+  
+  output <- data.frame(input,STATEFP = stfips,CTYFP=ctyfips)
+  output <- output[,c(1:3,53:55)]
+  output
+}
 
+calc_percent <- function(input){
+  cleaned <- by_state_fips(input)
+  stateFIPS<- read.csv("./data/stateFIPS.csv",header=TRUE)
+  
+  num <- stateFIPS$STATEFP
+  average_pred <- sapply(num, function(x) sum_pred(x,cleaned))
+  
+  preds <- data.frame(stateFIPS,avg=average_pred)
+  preds
+}
 
+sum_pred <- function(v,data){
+  ind <- which(data$STATEFP==v)
+  total <- sum(data$predictions[ind])
+  if (length(ind) >= 1){
+    avg <- total/length(ind)
+  } else {
+    avg <- 0
+  }
+  avg
+}
+
+# averages...
+bbd_pred_avg <- calc_percent(bbd_fips_predictions)
+clb_pred_avg <- calc_percent(clb_fips_predictions)
+eab_pred_avg <- calc_percent(eab_fips_predictions)
+ecb_pred_avg <- calc_percent(ecb_fips_predictions)
+gm_pred_avg <- calc_percent(gm_fips_predictions)
+hwa_pred_avg <- calc_percent(hwa_fips_predictions)
+jb_pred_avg <- calc_percent(jb_fips_predictions)
+mc_pred_avg <- calc_percent(mc_fips_predictions)
+
+saveRDS(bbd_pred_avg,file="bbd_pred_avg.rds")
+saveRDS(clb_pred_avg,file="clb_pred_avg.rds")
+saveRDS(eab_pred_avg,file="eab_pred_avg.rds")
+saveRDS(ecb_pred_avg,file="ecb_pred_avg.rds")
+saveRDS(gm_pred_avg,file="gm_pred_avg.rds")
+saveRDS(hwa_pred_avg,file="hwa_pred_avg.rds")
+saveRDS(jb_pred_avg,file="jb_pred_avg.rds")
+saveRDS(mc_pred_avg,file="mc_pred_avg.rds")
 
 createRegModel("beech_bark_disease",precip_table,temp_table,maxtemp_table,mintemp_table)
